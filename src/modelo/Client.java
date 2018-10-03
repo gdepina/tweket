@@ -8,7 +8,7 @@ public class Client {
 	private String phone;
 	private String mail;
 	private String dni;
-	Ç
+	
 	public Client(int id, String name, String homeAddress, Zone zone, String phone, String mail, String dni) {
 		super();
 		this.id = id;

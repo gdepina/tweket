@@ -10,7 +10,7 @@ public class Conexion {
 		try {
             String userName = "loginInteractivas";
             String password = "interactivas";
-            String url = "jdbc:sqlserver://MARIANO-VIRTUAL\\SQLEXPRESS:1433;database=tpInteractivas";
+            String url = "jdbc:sqlserver://GRUPO7\\SQLEXPRESS:1433;database=tpInteractivas";
             
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
