@@ -39,7 +39,7 @@ public class UserDAO extends Mapper {
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.users");
 			ResultSet rs = ps.executeQuery();
 
-			while (rs.next()) {
+			while (rs.next()) {			
 				users.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), this.getRolesByUser(con,rs.getInt("id"))));
 			}
 
