@@ -9,6 +9,7 @@ public abstract class Role {
 		
 	}
 	public User getUser() {
+		System.out.println("Alan esta es para vos");
 		return user;
 	}
 	public void setUser(User user) {
