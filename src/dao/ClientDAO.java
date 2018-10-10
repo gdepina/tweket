@@ -29,7 +29,7 @@ public class ClientDAO extends Mapper {
 		return instancia;
 	}
 
-	// devuelvo todos los clientes guardados en la base de datos
+	// Devuelvo todos los clientes guardados en la base de datos
 	public ArrayList<Client> getClients() {
 		ArrayList<Client> clientes = new ArrayList<Client>();
 

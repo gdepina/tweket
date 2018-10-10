@@ -175,7 +175,7 @@ public class Login extends javax.swing.JFrame {
 				});
 			}
 			pack();
-			this.setSize(295, 250);
+			this.setSize(279, 229);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
