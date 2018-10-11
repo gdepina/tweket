@@ -9,9 +9,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import excepciones.AccesoException;
+import excepciones.ConexionException;
+import excepciones.NoFreeConnectionException;
 import modelo.Client;
 import modelo.Zone;
-import persistence.Conexion;
+import persistence.ConnectionPool;
 
 public class ClientDAO extends Mapper {
 
@@ -34,8 +37,7 @@ public class ClientDAO extends Mapper {
 		ArrayList<Client> clientes = new ArrayList<Client>();
 
 		try {
-
-			Connection con = Conexion.connect();
+			Connection con = ConnectionPool.getInstancia().getConexion();
 			Client cli = null;
 
 			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.client");
@@ -48,12 +50,9 @@ public class ClientDAO extends Mapper {
 
 				clientes.add(cli);
 
-			}
-
-			con.close();
-		}
-
-		catch (SQLException e) {
+			}		
+		} 
+		catch (SQLException| ConexionException | NoFreeConnectionException | AccesoException  e) {
 			e.printStackTrace();
 		}
 		return clientes;
@@ -63,7 +62,7 @@ public class ClientDAO extends Mapper {
 	public Client getClient(int id) {
 		Client cli = null;
 		try {
-			Connection con = Conexion.connect();
+			Connection con = ConnectionPool.getInstancia().getConexion();
 			PreparedStatement ps = con
 					.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.client WHERE id=?");
 			ps.setInt(1, id);
@@ -73,8 +72,7 @@ public class ClientDAO extends Mapper {
 						this.getZoneById(con, rs.getInt("zone_code")), rs.getString("phone"), rs.getString("mail"),
 						rs.getString("dni"));
 			}
-			con.close();
-		} catch (SQLException e) {
+		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
 		return cli;

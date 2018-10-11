@@ -7,6 +7,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -15,13 +16,12 @@ import javax.swing.WindowConstants;
 
 import controller.Application;
 
-public class Login extends javax.swing.JFrame {
+public class Login extends JFrame {
 
 	{
 		// Set Look & Feel
 		try {
-			javax.swing.UIManager
-					.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			javax.swing.UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -31,7 +31,7 @@ public class Login extends javax.swing.JFrame {
 	private JTextField t_usuario;
 	private JTextField t_password;
 	private JButton botonIngresar;
-	private JComboBox  comboRoles;
+	private JComboBox comboRoles;
 	private JLabel Contrasenia;
 	private JLabel Jlabel1;
 
@@ -66,19 +66,19 @@ public class Login extends javax.swing.JFrame {
 				btn_roles.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
 						if (event.getSource() == btn_roles) {
-							if (( Application.getInstancia()).existeUsuario(
-								Integer.parseInt(t_usuario.getText()),
+							if ((Application.getInstancia()).existeUsuario(Integer.parseInt(t_usuario.getText()),
 									t_password.getText()) == true) {
-								for (String tipoRol : Application.getInstancia().obtenerRolesDeUsuario(Integer.parseInt(t_usuario.getText()))){
+								for (String tipoRol : Application.getInstancia()
+										.obtenerRolesDeUsuario(Integer.parseInt(t_usuario.getText()))) {
 									comboRoles.addItem(tipoRol);
-								}	
-							}
-							else 
-								JOptionPane.showMessageDialog(null,"Usuario y Contrase�a incorrectos","Error",JOptionPane.INFORMATION_MESSAGE);
+								}
+							} else
+								JOptionPane.showMessageDialog(null, "Usuario y Contrase�a incorrectos", "Error",
+										JOptionPane.INFORMATION_MESSAGE);
 
 						}
 					}
-				
+
 				});
 			}
 			{
@@ -120,22 +120,20 @@ public class Login extends javax.swing.JFrame {
 					public void actionPerformed(ActionEvent event) {
 						if (event.getSource() == botonIngresar) {
 							if (comboRoles.getSelectedItem().toString().compareTo("Elija un Rol...") == 0)
-								JOptionPane.showMessageDialog(null,"Hay campos que no fueron seleccionados","Error",JOptionPane.INFORMATION_MESSAGE);
-							if (comboRoles.getSelectedItem().toString()
-									.compareTo("Administrador") == 0) {
+								JOptionPane.showMessageDialog(null, "Hay campos que no fueron seleccionados", "Error",
+										JOptionPane.INFORMATION_MESSAGE);
+							if (comboRoles.getSelectedItem().toString().compareTo("Administrador") == 0) {
 								dispose();
 								Administrador frame = new Administrador();
 								frame.setLocationRelativeTo(null);
 								frame.setVisible(true);
-							} else if (comboRoles.getSelectedItem().toString()
-									.compareTo("CallCenter") == 0) {
+							} else if (comboRoles.getSelectedItem().toString().compareTo("CallCenter") == 0) {
 
 								dispose();
 								TableroCallCenter frame1 = new TableroCallCenter();
 								frame1.setLocationRelativeTo(null);
 								frame1.setVisible(true);
-							} else if (comboRoles.getSelectedItem().toString()
-									.compareTo("Consulta") == 0) {
+							} else if (comboRoles.getSelectedItem().toString().compareTo("Consulta") == 0) {
 
 								dispose();
 								TableroConsulta frame2 = new TableroConsulta();
@@ -143,8 +141,7 @@ public class Login extends javax.swing.JFrame {
 								frame2.setVisible(true);
 							}
 
-							else if (comboRoles.getSelectedItem().toString()
-									.compareTo("Distribucion") == 0) {
+							else if (comboRoles.getSelectedItem().toString().compareTo("Distribucion") == 0) {
 
 								dispose();
 								TableroResponsableDistribucion frame3 = new TableroResponsableDistribucion();
@@ -152,8 +149,7 @@ public class Login extends javax.swing.JFrame {
 								frame3.setVisible(true);
 							}
 
-							else if (comboRoles.getSelectedItem().toString()
-									.compareTo("Zona Entrega") == 0) {
+							else if (comboRoles.getSelectedItem().toString().compareTo("Zona Entrega") == 0) {
 
 								dispose();
 								TableroResponsableZona frame4 = new TableroResponsableZona();
@@ -161,8 +157,7 @@ public class Login extends javax.swing.JFrame {
 								frame4.setVisible(true);
 							}
 
-							else if (comboRoles.getSelectedItem().toString()
-									.compareTo("Facturacion") == 0) {
+							else if (comboRoles.getSelectedItem().toString().compareTo("Facturacion") == 0) {
 
 								dispose();
 								TableroResponableFacturacion frame5 = new TableroResponableFacturacion();

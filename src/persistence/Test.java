@@ -1,4 +1,4 @@
-package servicio;
+package persistence;
 
 import java.sql.SQLException;
 
