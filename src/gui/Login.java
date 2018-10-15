@@ -138,9 +138,9 @@ public class Login extends JFrame {
 	private void getDashByType(String type) {
 		switch(type) {
 			case "admin" :
-				DashAdmin fAdm = new DashAdmin();
-				fAdm.setLocationRelativeTo(null);
-				fAdm.setVisible(true);
+//				DashAdmin fAdm = new DashAdmin();
+//				fAdm.setLocationRelativeTo(null);
+//				fAdm.setVisible(true);
 				break; // optional
 
 			case "Zona Entrega" :
@@ -154,17 +154,17 @@ public class Login extends JFrame {
 				fCallCenter.setVisible(true);
 				break; // optional
 			case "Distribucion" :
-				DashLogistics fLogistics = new DashLogistics();
+//				DashLogistics fLogistics = new DashLogistics();
 //				fLogistics.setLocationRelativeTo(null);
 //				fLogistics.setVisible(true);
 				break; // optional
 			case "Consulta" :
-				DashConsult fConsult = new DashConsult();
-				fConsult.setLocationRelativeTo(null);
-				fConsult.setVisible(true);
+//				DashConsult fConsult = new DashConsult();
+//				fConsult.setLocationRelativeTo(null);
+//				fConsult.setVisible(true);
 				break; // optional
 			case "Facturacion" :
-				DashBilling fBilling = new DashBilling();
+//				DashBilling fBilling = new DashBilling();
 //				fBilling.setLocationRelativeTo(null);
 //				fBilling.setVisible(true);
 				break; // optional

@@ -6,13 +6,12 @@ import java.util.List;
 public class BillingTicket extends TicketLeaf {
 	private int billId;
 
-	public BillingTicket(int ticketNumber, String type, String description, Client client, Status status,
-			List<TicketHistorical> historical, Date creationDate, Date endingDate) {
-		super(ticketNumber, type, description, client, status, historical, creationDate, endingDate);
-		// TODO Auto-generated constructor stub
+	public BillingTicket(int ticketNumber, String type, String description, Client client, Status status, Date creationDate, Date endingDate, int billId) {
+		super(ticketNumber, type, description, client, status, creationDate, endingDate);
+		this.billId = billId;
 	}
 
-	// METODOS
+// METODOS
 
 	public void process() {
 
@@ -25,11 +24,6 @@ public class BillingTicket extends TicketLeaf {
 	}
 
 	@Override
-	public List<Ticket> getTickets() {
-		return null;
-	}
-
-	@Override
 	public void removeTicket() {
 		// TODO Auto-generated method stub
 
@@ -39,12 +33,6 @@ public class BillingTicket extends TicketLeaf {
 	public boolean finalized() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public void finaizeTicket() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

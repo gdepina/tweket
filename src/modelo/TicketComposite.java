@@ -6,9 +6,8 @@ import java.util.List;
 public class TicketComposite extends Ticket {
 	private List<Ticket> tickets;
 
-	public TicketComposite(int ticketNumber, String type, String description, Client client, Status status,
-			List<TicketHistorical> historical, Date creationDate, Date endingDate, List<Ticket> tickets) {
-		super(ticketNumber, type, description, client, status, historical, creationDate, endingDate);
+	public TicketComposite(int ticketNumber, String type, String description, Client client, Status status, Date creationDate, Date endingDate, List<Ticket> tickets) {
+		super(ticketNumber, type, description, client, status, creationDate, endingDate);
 		this.tickets = tickets;
 	}
 

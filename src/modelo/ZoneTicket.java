@@ -35,12 +35,6 @@ public class ZoneTicket extends TicketLeaf {
 	}
 
 	@Override
-	public void finaizeTicket() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void addTicket(Ticket ticket) {
 		// TODO Auto-generated method stub
 

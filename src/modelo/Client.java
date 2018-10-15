@@ -1,15 +1,20 @@
 package modelo;
 
+import dao.ClientDAO;
+import view.ClientView;
+
+import java.util.ArrayList;
+
 public class Client {
 	private int id;
 	private String name;
 	private String homeAddress;
-	private Zone zone;
+	private ZoneLocation zone;
 	private String phone;
 	private String mail;
 	private String dni;
 
-	public Client(int id, String name, String homeAddress, Zone zone, String phone, String mail, String dni) {
+	public Client(int id, String name, String homeAddress, ZoneLocation zone, String phone, String mail, String dni) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -18,6 +23,10 @@ public class Client {
 		this.phone = phone;
 		this.mail = mail;
 		this.dni = dni;
+	}
+
+	public ClientView toView() {
+		return new ClientView(this.name, this.id);
 	}
 
 	public int getId() {
@@ -44,11 +53,11 @@ public class Client {
 		this.homeAddress = homeAddress;
 	}
 
-	public Zone getZone() {
+	public ZoneLocation getZone() {
 		return zone;
 	}
 
-	public void setZone(Zone zone) {
+	public void setZone(ZoneLocation zone) {
 		this.zone = zone;
 	}
 
@@ -83,6 +92,13 @@ public class Client {
 
 	public void removeClient(int id) {
 
+	}
+
+	public static Client getClient(int clientId) {
+		return ClientDAO.getInstancia().getClient(clientId);
+	}
+	public static ArrayList<Client> getClients() {
+		return ClientDAO.getInstancia().getClients();
 	}
 
 }

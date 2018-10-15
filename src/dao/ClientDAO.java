@@ -13,7 +13,7 @@ import excepciones.AccesoException;
 import excepciones.ConexionException;
 import excepciones.NoFreeConnectionException;
 import modelo.Client;
-import modelo.Zone;
+import modelo.ZoneLocation;
 import persistence.ConnectionPool;
 
 public class ClientDAO extends Mapper {
@@ -78,7 +78,7 @@ public class ClientDAO extends Mapper {
 		return cli;
 	}
 
-	private Zone getZoneById(Connection con, int id) {
+	private ZoneLocation getZoneById(Connection con, int id) {
 		int zoneCode = 0;
 		String zoneName = null;
 		try {
@@ -97,7 +97,7 @@ public class ClientDAO extends Mapper {
 			e.printStackTrace();
 		}
 
-		return new Zone(zoneCode, zoneName);
+		return new ZoneLocation(zoneCode, zoneName);
 
 	}
 

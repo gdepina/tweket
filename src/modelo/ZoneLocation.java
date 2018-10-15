@@ -1,10 +1,10 @@
 package modelo;
 
-public class Zone {
+public class ZoneLocation {
 	private int zoneCode;
 	private String name;
 
-	public Zone(int zoneCode, String name) {
+	public ZoneLocation(int zoneCode, String name) {
 		super();
 		this.zoneCode = zoneCode;
 		this.name = name;

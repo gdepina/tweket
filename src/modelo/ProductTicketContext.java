@@ -6,13 +6,15 @@ import java.util.List;
 public class ProductTicketContext extends TicketLeaf {
 	private int quantity;
 	private Product product;
-	private StrategyTicket strategy;
 
-	public ProductTicketContext(int ticketNumber, String type, String description, Client client, Status status,
-			List<TicketHistorical> historical, Date creationDate, Date endingDate) {
-		super(ticketNumber, type, description, client, status, historical, creationDate, endingDate);
-		// TODO Auto-generated constructor stub
+	public ProductTicketContext(int ticketNumber, String type, String description, Client client, Status status, Date creationDate, Date endingDate, int quantity, Product product, StrategyTicket strategy) {
+		super(ticketNumber, type, description, client, status, creationDate, endingDate);
+		this.quantity = quantity;
+		this.product = product;
+		this.strategy = strategy;
 	}
+
+	private StrategyTicket strategy;
 
 	// METODOS
 
@@ -43,12 +45,6 @@ public class ProductTicketContext extends TicketLeaf {
 	}
 
 	@Override
-	public void finaizeTicket() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void addTicket(Ticket ticket) {
 		// TODO Auto-generated method stub
 
@@ -59,11 +55,4 @@ public class ProductTicketContext extends TicketLeaf {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public List<Ticket> getTickets() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
