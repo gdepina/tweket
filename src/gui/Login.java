@@ -55,8 +55,8 @@ public class Login extends JFrame {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
 			this.setTitle("Login");
-			this.setMaximumSize(new java.awt.Dimension(279, 169));
-			this.setMinimumSize(new java.awt.Dimension(279, 169));
+			this.setMaximumSize(new java.awt.Dimension(279, 269));
+			this.setMinimumSize(new java.awt.Dimension(279, 269));
 			this.setVisible(false);
 			{
 				btn_roles = new JButton();
@@ -66,11 +66,11 @@ public class Login extends JFrame {
 				btn_roles.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
 						if (event.getSource() == btn_roles) {
-							if ((Application.getInstancia()).existeUsuario(Integer.parseInt(t_usuario.getText()),
+							if ((Application.getInstancia()).checkUser(Integer.parseInt(t_usuario.getText()),
 									t_password.getText()) == true) {
-								for (String tipoRol : Application.getInstancia()
-										.obtenerRolesDeUsuario(Integer.parseInt(t_usuario.getText()))) {
-									comboRoles.addItem(tipoRol);
+								for (String type : Application.getInstancia()
+										.getRolesByUser(Integer.parseInt(t_usuario.getText()))) {
+									comboRoles.addItem(type);
 								}
 							} else
 								JOptionPane.showMessageDialog(null, "Usuario y Contrase�a incorrectos", "Error",
@@ -119,51 +119,7 @@ public class Login extends JFrame {
 				botonIngresar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
 						if (event.getSource() == botonIngresar) {
-							if (comboRoles.getSelectedItem().toString().compareTo("Elija un Rol...") == 0)
-								JOptionPane.showMessageDialog(null, "Hay campos que no fueron seleccionados", "Error",
-										JOptionPane.INFORMATION_MESSAGE);
-							if (comboRoles.getSelectedItem().toString().compareTo("Administrador") == 0) {
-								dispose();
-								Administrador frame = new Administrador();
-								frame.setLocationRelativeTo(null);
-								frame.setVisible(true);
-							} else if (comboRoles.getSelectedItem().toString().compareTo("CallCenter") == 0) {
 
-								dispose();
-								TableroCallCenter frame1 = new TableroCallCenter();
-								frame1.setLocationRelativeTo(null);
-								frame1.setVisible(true);
-							} else if (comboRoles.getSelectedItem().toString().compareTo("Consulta") == 0) {
-
-								dispose();
-								TableroConsulta frame2 = new TableroConsulta();
-								frame2.setLocationRelativeTo(null);
-								frame2.setVisible(true);
-							}
-
-							else if (comboRoles.getSelectedItem().toString().compareTo("Distribucion") == 0) {
-
-								dispose();
-								TableroResponsableDistribucion frame3 = new TableroResponsableDistribucion();
-								frame3.setLocationRelativeTo(null);
-								frame3.setVisible(true);
-							}
-
-							else if (comboRoles.getSelectedItem().toString().compareTo("Zona Entrega") == 0) {
-
-								dispose();
-								TableroResponsableZona frame4 = new TableroResponsableZona();
-								frame4.setLocationRelativeTo(null);
-								frame4.setVisible(true);
-							}
-
-							else if (comboRoles.getSelectedItem().toString().compareTo("Facturacion") == 0) {
-
-								dispose();
-								TableroResponableFacturacion frame5 = new TableroResponableFacturacion();
-								frame5.setLocationRelativeTo(null);
-								frame5.setVisible(true);
-							}
 						}
 					}
 

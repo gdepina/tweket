@@ -54,12 +54,6 @@ public class BillingTicket extends TicketLeaf {
 	}
 
 	@Override
-	public Ticket getTickets(List<Ticket> lista) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void finalizeTicket() {
 		// TODO Auto-generated method stub
 

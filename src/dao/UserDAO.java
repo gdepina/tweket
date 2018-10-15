@@ -16,7 +16,6 @@ import excepciones.ConexionException;
 import excepciones.NoFreeConnectionException;
 import modelo.Role;
 import modelo.User;
-import persistence.Conexion;
 import persistence.ConnectionPool;
 
 public class UserDAO extends Mapper {
@@ -88,7 +87,8 @@ public class UserDAO extends Mapper {
 	public User getUser(int id) {
 		User user = null;	
 		try {
-			Connection con = Conexion.connect();
+			
+			Connection con = ConnectionPool.getInstancia().getConexion();
 			PreparedStatement ps = con
 					.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.users WHERE id=?");
 			ps.setInt(1, id);
@@ -97,7 +97,7 @@ public class UserDAO extends Mapper {
 				user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), this.getRolesByUser(con,rs.getInt("id")));
 			}
 			con.close();
-		} catch (SQLException e) {
+		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
 		return user;
