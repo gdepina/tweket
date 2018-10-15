@@ -45,7 +45,7 @@ public class ClientDAO extends Mapper {
 
 			while (rs.next()) {
 
-				cli = new Client(rs.getInt("id"), rs.getString("name"), rs.getString("homeAddress"),
+				cli = new Client(rs.getInt("id"), rs.getString("name"), rs.getString("address"),
 						this.getZoneById(con, rs.getInt("zone_code")), rs.getString("phone"), rs.getString("mail"), rs.getString("dni"));
 
 				clientes.add(cli);
@@ -68,7 +68,7 @@ public class ClientDAO extends Mapper {
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				cli = new Client(rs.getInt("id"), rs.getString("name"), rs.getString("homeAddress"),
+				cli = new Client(rs.getInt("id"), rs.getString("name"), rs.getString("address"),
 						this.getZoneById(con, rs.getInt("zone_code")), rs.getString("phone"), rs.getString("mail"),
 						rs.getString("dni"));
 			}
@@ -83,14 +83,14 @@ public class ClientDAO extends Mapper {
 		String zoneName = null;
 		try {
 			PreparedStatement ps4 = con
-					.prepareStatement("SELECT TOP 1 * FROM " + super.getDatabase() + ".dbo.Zone where id=?");
+					.prepareStatement("SELECT TOP 1 * FROM " + super.getDatabase() + ".dbo.Zone where zone_code=?");
 			ps4.setInt(1, id);
 			ResultSet rs = ps4.executeQuery();
 
 			while (rs.next()) {
 
 				zoneCode = rs.getInt("zone_code");
-				zoneName = rs.getString("zone_name");
+				zoneName = rs.getString("name");
 
 			}
 		} catch (SQLException e) {
