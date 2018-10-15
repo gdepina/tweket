@@ -2,18 +2,13 @@ package modelo;
 
 
 public abstract class Role {
-	
-	protected User user;
+
 	protected String type;
-	public void Rol() {
-		
-	}
-	public User getUser() {
-		System.out.println("Alan esta es para vos");
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
+
+
+	public Role(String type) {
+		super();
+		this.type = type;
 	}
 	public String getType() {
 		return type;

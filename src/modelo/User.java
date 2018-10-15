@@ -2,6 +2,8 @@ package modelo;
 
 import java.util.List;
 
+import dao.UserDAO;
+
 public class User {
 
 	private int id;
@@ -63,5 +65,10 @@ public class User {
 	public void addUser(int id, String userName, String pass) {
 		
 	}
+	
+	public static User getUser(int userId) {		
+		return UserDAO.getInstancia().getUser(userId);
+	}
+
 
 }
