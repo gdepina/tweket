@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package dao;
 
 import controller.Application;
@@ -234,3 +235,10 @@ public class TicketDAO extends Mapper {
 //	}
 
 }
+=======
+package dao;
+
+public class TicketDAO {
+
+}
+>>>>>>> russo
