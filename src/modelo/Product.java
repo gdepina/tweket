@@ -1,6 +1,9 @@
 package modelo;
 
+import dao.ProductDAO;
 import view.ProductView;
+
+import java.util.ArrayList;
 
 public class Product {
 
@@ -61,6 +64,10 @@ public class Product {
 
 	public void removeProduct(Product product) {
 
+	}
+
+	public static ArrayList<Product> getProducts() {
+		return ProductDAO.getInstancia().getProducts();
 	}
 
 }

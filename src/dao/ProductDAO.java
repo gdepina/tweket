@@ -32,7 +32,7 @@ public class ProductDAO extends Mapper {
 
 	// devuelvo todos los Productos guardados en la base de datos
 	
-	public ArrayList<Product> getProduct() {
+	public ArrayList<Product> getProducts() {
 		ArrayList<Product> products = new ArrayList<Product>();
 
 		try {

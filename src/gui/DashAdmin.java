@@ -13,8 +13,6 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import negocio.Controlador;
-import views.UsuarioView;
 //FALTA LIMPIAR EL COMBO EN EL QUITAR, ARREGLAR EL OBTERNER ROLES, QUE NO REPITA.
 public class DashAdmin extends javax.swing.JFrame {
 

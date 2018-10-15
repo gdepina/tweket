@@ -18,11 +18,6 @@ import modelo.Client;
 import modelo.Product;
 import view.ClientView;
 import view.ProductView;
-import views.ClienteView;
-import views.ProductoView;
-import negocio.Cliente;
-import negocio.Controlador;
-import negocio.Producto;
 
 
 public class DashCallCenter extends javax.swing.JFrame  {
@@ -157,8 +152,6 @@ public class DashCallCenter extends javax.swing.JFrame  {
 				btn_ingresar.setBounds(179, 426, 104, 21);
 				btn_ingresar.addActionListener(new ActionListener(){
 				ArrayList <String> tipoReclamos= new ArrayList <String>();
-				Client cli= new Client();
-				Product pro= new Product();
 					public void actionPerformed(ActionEvent event) {		
 						
 						if (event.getSource() == btn_ingresar && radioSimple.isSelected()) {

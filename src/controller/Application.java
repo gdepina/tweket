@@ -77,8 +77,8 @@ public class Application {
 			}
 			if (res == null)
 				res = Ticket.getTicket(ticketNumber);
-			return res;
 		}
+		return res;
 	}
 
 
