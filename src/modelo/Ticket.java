@@ -1,5 +1,9 @@
 package modelo;
 
+import dao.TicketDAO;
+import view.TicketView;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,16 +18,21 @@ public abstract class Ticket {
 	private Date endingDate;
 
 	public Ticket(int ticketNumber, String type, String description, Client client, Status status,
-			List<TicketHistorical> historical, Date creationDate, Date endingDate) {
+				  Date creationDate, Date endingDate) {
 		super();
 		this.ticketNumber = ticketNumber;
 		this.type = type;
 		this.description = description;
 		this.client = client;
 		this.status = status;
-		this.historical = historical;
 		this.creationDate = creationDate;
 		this.endingDate = endingDate;
+	}
+
+	public TicketView toView() {
+		TicketView ticketView = new TicketView(this.ticketNumber,
+				this.description, this.type, this.status, this.creationDate, this.endingDate);
+		return ticketView;
 	}
 
 	public int getTicketNumber() {
@@ -96,8 +105,6 @@ public abstract class Ticket {
 	public abstract void removeTicket();
 
 	public abstract void changeStatus(Status status);
-
-	public abstract List<Ticket> getTickets();
 	
 
 	public abstract boolean finalized();
@@ -106,5 +113,20 @@ public abstract class Ticket {
 
 	public abstract void finalizeTicket();
 	// a este metodo lo mismo, no tendriamos que pasarle un numero de ticket???
+
+//	public ArrayList<Ticket> getTickets() {
+//		return TicketDAO.getInstancia().getTickets();
+//	};
+
+	public static ArrayList<Ticket> getTickets(String type) {
+		return TicketDAO.getInstancia().getTicketsByType(type);
+	};
+
+	public static Ticket getTicket(int id) {
+		return TicketDAO.getInstancia().getTicket(id);
+	};
+
+
+
 
 }

@@ -1,14 +1,13 @@
 package modelo;
 
+import dao.TicketDAO;
+
 import java.util.Date;
 import java.util.List;
 
 public class ZoneTicket extends TicketLeaf {
-
-	public ZoneTicket(int ticketNumber, String type, String description, Client client, Status status,
-			List<TicketHistorical> historical, Date creationDate, Date endingDate) {
-		super(ticketNumber, type, description, client, status, historical, creationDate, endingDate);
-		// TODO Auto-generated constructor stub
+	public ZoneTicket(int ticketNumber, String type, String description, Client client, Status status, Date creationDate, Date endingDate) {
+		super(ticketNumber, type, description, client, status, creationDate, endingDate);
 	}
 
 	// METODOS
@@ -54,10 +53,5 @@ public class ZoneTicket extends TicketLeaf {
 
 	}
 
-	@Override
-	public List<Ticket> getTickets() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

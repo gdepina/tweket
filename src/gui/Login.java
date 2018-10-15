@@ -66,10 +66,8 @@ public class Login extends JFrame {
 				btn_roles.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
 						if (event.getSource() == btn_roles) {
-							if ((Application.getInstancia()).checkUser(Integer.parseInt(t_usuario.getText()),
-									t_password.getText()) == true) {
-								for (String type : Application.getInstancia()
-										.getRolesByUser(Integer.parseInt(t_usuario.getText()))) {
+							if ((Application.getInstancia()).checkUser(t_usuario.getText(), t_password.getText())) {
+								for (String type : Application.getInstancia().getRolesByUser(t_usuario.getText())) {
 									comboRoles.addItem(type);
 								}
 							} else
@@ -119,7 +117,12 @@ public class Login extends JFrame {
 				botonIngresar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
 						if (event.getSource() == botonIngresar) {
-
+							if (comboRoles.getSelectedItem().toString().compareTo("Elija un Rol...") == 0)
+								JOptionPane.showMessageDialog(null,"Seleccione un rol","Error",JOptionPane.INFORMATION_MESSAGE);
+							else {
+								dispose();
+								getDashByType(comboRoles.getSelectedItem().toString());
+							}
 						}
 					}
 
@@ -130,6 +133,47 @@ public class Login extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void getDashByType(String type) {
+		switch(type) {
+			case "admin" :
+				DashAdmin fAdm = new DashAdmin();
+				fAdm.setLocationRelativeTo(null);
+				fAdm.setVisible(true);
+				break; // optional
+
+			case "Zona Entrega" :
+				DashZone fZone = new DashZone();
+				fZone.setLocationRelativeTo(null);
+				fZone.setVisible(true);
+				break; // optional
+			case "CallCenter" :
+				DashCallCenter fCallCenter = new DashCallCenter();
+				fCallCenter.setLocationRelativeTo(null);
+				fCallCenter.setVisible(true);
+				break; // optional
+			case "Distribucion" :
+				DashLogistics fLogistics = new DashLogistics();
+//				fLogistics.setLocationRelativeTo(null);
+//				fLogistics.setVisible(true);
+				break; // optional
+			case "Consulta" :
+				DashConsult fConsult = new DashConsult();
+				fConsult.setLocationRelativeTo(null);
+				fConsult.setVisible(true);
+				break; // optional
+			case "Facturacion" :
+				DashBilling fBilling = new DashBilling();
+//				fBilling.setLocationRelativeTo(null);
+//				fBilling.setVisible(true);
+				break; // optional
+
+			// You can have any number of case statements.
+			default : // Optional
+				// Statements
+		}
+
 	}
 
 	public JTextField getT_password() {

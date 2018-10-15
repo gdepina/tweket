@@ -1,5 +1,7 @@
 package modelo;
 
+import view.ProductView;
+
 public class Product {
 
 	private String productCode;
@@ -13,6 +15,10 @@ public class Product {
 		this.title = title;
 		this.description = description;
 		this.price = price;
+	}
+
+	public ProductView toView() {
+		return new ProductView(this.productCode, this.title);
 	}
 
 	public String getProductCode() {

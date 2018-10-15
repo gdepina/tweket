@@ -46,7 +46,6 @@ public class UserDAO extends Mapper {
 				users.add(new User(rs.getInt("id"), rs.getString("user_name"), rs.getString("pass"), this.getRolesByUser(con,rs.getInt("id"))));
 			}
 
-			con.close();
 		}
 
 		catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
@@ -63,7 +62,6 @@ public class UserDAO extends Mapper {
 			ps.setInt(1, user.getId());
 			ps.setString(2, role.getType());
 			ps.execute();
-			con.close();
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
@@ -78,32 +76,31 @@ public class UserDAO extends Mapper {
 			ps.setInt(1, user.getId());
 			ps.setString(2, rol.getType());
 			ps.execute();
-			con.close();
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public User getUser(int id) {
+	public User getUser(String userName) {
 		User user = null;	
 		try {
 			
 			Connection con = ConnectionPool.getInstancia().getConexion();
 			PreparedStatement ps = con
-					.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.users WHERE id=?");
-			ps.setInt(1, id);
+					.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.users WHERE user_name=?");
+			ps.setString(1, userName);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), this.getRolesByUser(con,rs.getInt("id")));
+				user = new User(rs.getInt("id"), rs.getString("user_name"), rs.getString("pass"), this.getRolesByUser(con,rs.getInt("id")));
 			}
-			con.close();
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
+
 		return user;
 	}
 
-	public User logIn(String userName, String pw) {
+	public boolean logIn(String userName, String pw) {
 		User user = null;
 		try {
 			Connection con = ConnectionPool.getInstancia().getConexion();
@@ -115,11 +112,10 @@ public class UserDAO extends Mapper {
 			while (rs.next()) {
 				user = new User(rs.getInt("id"), rs.getString("user_name"), rs.getString("pass"), this.getRolesByUser(con,rs.getInt("id") ));
 			}
-			con.close();
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
-		return user;
+		return user != null;
 	}
 
 	private List<Role> getRolesByUser(Connection con, int userId) {
@@ -128,14 +124,13 @@ public class UserDAO extends Mapper {
 		try {
 			PreparedStatement ps = con
 					.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.role_user"
-							+ "INNER JOIN role on role_id = id WHERE user_id=?");
+							+ " INNER JOIN role on role_id = id WHERE user_id=?");
 			ps.setInt(1, userId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				role = Application.getInstancia().makeRol(rs.getString("type"));
 				roles.add(role);
 			}
-			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

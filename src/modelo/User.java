@@ -66,9 +66,13 @@ public class User {
 		
 	}
 	
-	public static User getUser(int userId) {		
-		return UserDAO.getInstancia().getUser(userId);
+	public static boolean logIn(String userName, String pw) {
+		return UserDAO.getInstancia().logIn(userName, pw);
 	}
+
+    public static User getUser(String userName) {
+        return UserDAO.getInstancia().getUser(userName);
+    }
 
 
 }

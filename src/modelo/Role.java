@@ -1,7 +1,7 @@
 package modelo;
 
 
-public abstract class Role {
+public class Role {
 		
 	protected String type;
 
@@ -16,7 +16,4 @@ public abstract class Role {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
-	
 }
