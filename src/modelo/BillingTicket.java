@@ -6,9 +6,17 @@ import java.util.List;
 public class BillingTicket extends TicketLeaf {
 	private int billId;
 
-	public BillingTicket(int ticketNumber, String type, String description, Client client, Status status, Date creationDate, Date endingDate, int billId) {
-		super(ticketNumber, type, description, client, status, creationDate, endingDate);
+	public BillingTicket(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int billId) {
+		super(ticketNumber, type, description, client, status, product, creationDate, endingDate);
 		this.billId = billId;
+	}
+
+	public BillingTicket() {
+
+    }
+
+	public BillingTicket(String type) {
+		this.setType(type);
 	}
 
 // METODOS

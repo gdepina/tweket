@@ -1,13 +1,20 @@
 package modelo;
 
+import dao.TicketDAO;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class TicketComposite extends Ticket {
 	private List<Ticket> tickets;
 
-	public TicketComposite(int ticketNumber, String type, String description, Client client, Status status, Date creationDate, Date endingDate, List<Ticket> tickets) {
-		super(ticketNumber, type, description, client, status, creationDate, endingDate);
+	public TicketComposite(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, List<Ticket> tickets) {
+		super(ticketNumber, type, description, client, status, product, creationDate, endingDate);
+		this.tickets = tickets;
+	}
+
+	public TicketComposite(ArrayList<Ticket> tickets) {
 		this.tickets = tickets;
 	}
 
@@ -22,7 +29,7 @@ public class TicketComposite extends Ticket {
 	// METODOS
 
 	public void addTicket(Ticket ticket) {
-
+		TicketDAO.getInstancia().addTicketComposite(this);
 	}
 
 	public void removeTicket(Ticket ticket) {

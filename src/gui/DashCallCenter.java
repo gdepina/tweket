@@ -156,7 +156,7 @@ public class DashCallCenter extends javax.swing.JFrame  {
 						
 						if (event.getSource() == btn_ingresar && radioSimple.isSelected()) {
 							tipoReclamos.add(combo1.getSelectedItem().toString());
-							Application.getInstancia().saveTicket(tipoReclamos, Integer.parseInt(comboCliente.getSelectedItem().toString().substring(0,2).trim()),text_decripcion.getText(), Integer.parseInt(comboProductos.getSelectedItem().toString().substring(0,2).trim()));
+							Application.getInstancia().saveTicket(tipoReclamos, Integer.parseInt(comboCliente.getSelectedItem().toString().trim()),text_decripcion.getText(), comboProductos.getSelectedItem().toString().trim());
 							
 
 						} else if (event.getSource() == btn_ingresar && radioCompuesto.isSelected()){
@@ -175,7 +175,7 @@ public class DashCallCenter extends javax.swing.JFrame  {
 							if (jComboBox4.getSelectedItem().toString().compareToIgnoreCase("Seleccionar") !=0){
 								tipoReclamos.add(jComboBox4.getSelectedItem().toString());
 							}
-							Application.getInstancia().saveTicket(tipoReclamos, Integer.parseInt(comboCliente.getSelectedItem().toString().substring(0,2).trim()),text_decripcion.getText(), Integer.parseInt(comboProductos.getSelectedItem().toString().substring(0,2).trim()));
+							Application.getInstancia().saveTicket(tipoReclamos, Integer.parseInt(comboCliente.getSelectedItem().toString().trim()),text_decripcion.getText(), comboProductos.getSelectedItem().toString().trim());
 						}
 						tipoReclamos= new ArrayList <String>();
 					}				
@@ -244,7 +244,7 @@ public class DashCallCenter extends javax.swing.JFrame  {
 				comboCliente.setModel(comboClienteModel);
 				comboCliente.setBounds(125, 218, 158, 26);
 				for (ClientView cli: Application.getInstancia().getClients()){
-					comboCliente.addItem(Integer.toString(cli.getId())+"    "+cli.getName());
+					comboCliente.addItem(Integer.toString(cli.getId()));
 				}
 			}
 			{
@@ -262,7 +262,7 @@ public class DashCallCenter extends javax.swing.JFrame  {
 				comboProductos.setModel(comboProductosModel);
 				comboProductos.setBounds(125, 260, 158, 26);
 				for (ProductView pro: Application.getInstancia().getProducts()){
-					comboProductos.addItem(pro.getId()+"    "+pro.getName());
+					comboProductos.addItem(pro.getId());
 				}
 			}
 			pack();

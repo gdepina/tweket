@@ -1,6 +1,6 @@
 package modelo;
 
-public class QuantityTicketStrategy {
+public class QuantityTicketStrategy extends StrategyTicket {
 
 	// METODOS
 

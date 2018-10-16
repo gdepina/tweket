@@ -1,6 +1,6 @@
 package modelo;
 
-public class MissingTicketStrategy {
+public class MissingTicketStrategy extends StrategyTicket {
 
 	// METODOS
 

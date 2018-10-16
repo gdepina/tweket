@@ -14,7 +14,7 @@ public class TicketView {
 	private Date creationDate;
 	private Date endingDate;
 
-	public TicketView(int ticketNumber, String description, String type, Status status, Date creationDate, Date endingDate) {
+	public TicketView(int ticketNumber, String description, String type, Status status, Date creationDate, Date endingDate, Client client) {
 		this.ticketNumber = ticketNumber;
 		this.description = description;
 		this.type = type;

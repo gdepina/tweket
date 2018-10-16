@@ -13,25 +13,37 @@ public abstract class Ticket {
 	private String description;
 	private Client client;
 	private Status status;
+	private Product product;
 	private List<TicketHistorical> historical;
 	private Date creationDate;
 	private Date endingDate;
 
-	public Ticket(int ticketNumber, String type, String description, Client client, Status status,
-				  Date creationDate, Date endingDate) {
-		super();
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public Ticket(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate) {
 		this.ticketNumber = ticketNumber;
 		this.type = type;
 		this.description = description;
 		this.client = client;
 		this.status = status;
+		this.product = product;
 		this.creationDate = creationDate;
 		this.endingDate = endingDate;
 	}
 
+	public Ticket() {
+
+	}
+
 	public TicketView toView() {
 		TicketView ticketView = new TicketView(this.ticketNumber,
-				this.description, this.type, this.status, this.creationDate, this.endingDate);
+				this.description, this.type, this.status, this.creationDate, this.endingDate, this.client);
 		return ticketView;
 	}
 

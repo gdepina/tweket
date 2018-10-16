@@ -3,10 +3,10 @@ package view;
 public class ProductView {
 	private String name;
 	private String id;
-	public ProductView(String name, String id) {
+	public ProductView(String title, String productCode) {
 		super();
-		this.name = name;
-		this.id = id;
+		this.name = title;
+		this.id = productCode;
 	}
 	public String getName() {
 		return name;

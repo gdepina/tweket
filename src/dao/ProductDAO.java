@@ -51,10 +51,8 @@ public class ProductDAO extends Mapper {
 				products.add(pro);
 
 			}
-
-			con.close();
+			ConnectionPool.getInstancia().returnConexion(con);
 		}
-
 		catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
@@ -75,6 +73,7 @@ public class ProductDAO extends Mapper {
 				pro = new Product(rs.getString ("product_code"), rs.getString("title"), rs.getString("description"),
 						rs.getFloat("price"));
 			}
+			ConnectionPool.getInstancia().returnConexion(con);
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}

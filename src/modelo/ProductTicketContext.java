@@ -6,24 +6,36 @@ import java.util.List;
 public class ProductTicketContext extends TicketLeaf {
 	private int quantity;
 	private Product product;
-
-	public ProductTicketContext(int ticketNumber, String type, String description, Client client, Status status, Date creationDate, Date endingDate, int quantity, Product product, StrategyTicket strategy) {
-		super(ticketNumber, type, description, client, status, creationDate, endingDate);
-		this.quantity = quantity;
-		this.product = product;
-		this.strategy = strategy;
-	}
-
 	private StrategyTicket strategy;
 
-	// METODOS
 
-	public void process() {
-
+	public ProductTicketContext(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int quantity) {
+		super(ticketNumber, type, description, client, status, product, creationDate, endingDate);
+		this.quantity = quantity;
 	}
 
-	public void setStrategy() {
+	public ProductTicketContext(String strategyType) {
+		super();
+		this.strategy = new ProductTicketStrategy();
+		this.setType(strategyType);
+		if (strategyType.equals("faltante")){
+			this.strategy = new MissingTicketStrategy();
+		}
+		if (strategyType.equals("Cantidad"))  {
+			this.strategy = new QuantityTicketStrategy();
+		}
+		if (strategyType.equals("Porducto")) {
+			this.strategy = new ProductTicketStrategy();
+		}
+	}
 
+
+	public void process() {
+		strategy.process();
+	}
+
+	public void setStrategy(StrategyTicket strategy) {
+		this.strategy = strategy;
 	}
 
 	@Override

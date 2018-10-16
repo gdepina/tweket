@@ -56,6 +56,9 @@ public class DashZone extends JFrame implements Observable {
 		try {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);
+			getContentPane().setLayout(null);
+			this.setTitle("Reclamos de Zona");
+			this.setMaximumSize(new java.awt.Dimension(879, 669));
 			{
 				jLabel1 = new JLabel();
 				getContentPane().add(jLabel1);
@@ -69,26 +72,26 @@ public class DashZone extends JFrame implements Observable {
 				getContentPane().add(combo_reclamos);
 				combo_reclamos.setModel(combo_reclamosModel);
 				combo_reclamos.setBounds(94, 94, 332, 20);
-				for (TicketView tck : Application.getInstancia().getTickets("zone")) {
+				for (TicketView tck : Application.getInstancia().getTickets("Zona Entrega")) {
 					combo_reclamos.addItem(Integer.toString(tck.getTicketNumber())
 							+ "  " +"cliente: "+ tck.getClient().toView().getName() + ", "
 						+"estado: "+ tck.getStatus().getName());
 				}
-				combo_reclamos.addActionListener(new ActionListener() {
-		            public void actionPerformed(ActionEvent event) {
-		               
-		                JComboBox comboBox = (JComboBox) event.getSource();
+				combo_reclamos.addActionListener(new ActionListener() {//add actionlistner to listen for change
+					@Override
+					public void actionPerformed(ActionEvent e) {
 
-		                Object selected = comboBox.getSelectedItem();
-		                if(selected.toString()!="Seleccionar"){
-		                	
-							TicketView rec=Application.getInstancia().getTicket(Integer.parseInt(combo_reclamos.getSelectedItem().toString().substring(0,2).trim())).toView();
+						JComboBox comboBox = (JComboBox) e.getSource();
+
+						Object selected = comboBox.getSelectedItem();
+						if (selected.toString() != "Seleccionar") {
+
+							TicketView rec = Application.getInstancia().getTicket(Integer.parseInt(combo_reclamos.getSelectedItem().toString().substring(0, 2).trim())).toView();
 							desc_reclamo.setText(rec.getDescription());
-		                }
-		                
-		                	
-		                }
-				});
+						}
+					}
+
+					});
 			}
 			{
 				tratamientoText = new JEditorPane();
