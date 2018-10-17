@@ -31,19 +31,6 @@ public class Application {
     }
 
     public Role makeRol(String type) {
-
-//		if (tipoRol.compareToIgnoreCase("Zona Entrega") == 0)
-//			rol = new Role(tipoRol);
-//		else if (tipoRol.compareToIgnoreCase("CallCenter") == 0)
-//			rol = new RolCallCenter();
-//		else if (tipoRol.compareToIgnoreCase("Distribucion") == 0)
-//			rol = new RolDistribucion();
-//		else if (tipoRol.compareToIgnoreCase("Consulta") == 0)
-//			rol = new RolConsulta();
-//		else if (tipoRol.compareToIgnoreCase("DashAdmin") == 0)
-//			rol = new RolAdministrador();
-//		else if (tipoRol.compareToIgnoreCase("Facturacion") == 0)
-//			rol = new RolFacturacion();
         return new Role(type);
 
     }
@@ -178,5 +165,13 @@ public class Application {
         tickets.add(tck);
     }
 
+    public void addLog(String log, int ticketNumber) {
+        TicketHistorical tckHistory = new TicketHistorical(log, ticketNumber);
+        TicketHistorical.addHistory(tckHistory);
+    }
 
+
+    public void changeTicketState(int state, int ticketNumber) {
+        Ticket.changeStatus(ticketNumber, state);
+    }
 }

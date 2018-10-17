@@ -1,18 +1,34 @@
 package modelo;
 
+import dao.TicketDAO;
+
+import java.util.Calendar;
 import java.util.Date;
 
 public class TicketHistorical {
 	private int id;
+	private int ticketNumber;
 	private String log;
 	private Date date;
 
-	public TicketHistorical(int id, String log, Date date) {
+	public TicketHistorical(String log, int ticketNumber) {
 		super();
-		this.id = id;
 		this.log = log;
-		this.date = date;
+		this.ticketNumber = ticketNumber;
 	}
+
+	public static void addHistory(TicketHistorical tckHistory) {
+		TicketDAO.getInstancia().addTicketHistorical(tckHistory);
+	}
+
+	public int getTicketNumber() {
+		return ticketNumber;
+	}
+
+	public void setTicketNumber(int ticketNumber) {
+		this.ticketNumber = ticketNumber;
+	}
+
 
 	public int getId() {
 		return id;

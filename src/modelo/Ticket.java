@@ -95,6 +95,10 @@ public abstract class Ticket {
 		this.historical = historical;
 	}
 
+	public void addHistorical(TicketHistorical history) {
+		this.historical.add(history);
+	}
+
 	public Date getCreationDate() {
 		return creationDate;
 	}
@@ -136,6 +140,10 @@ public abstract class Ticket {
 
 	public static Ticket getTicket(int id) {
 		return TicketDAO.getInstancia().getTicket(id);
+	};
+
+	public static void changeStatus(int ticketNumber, int statusId) {
+		TicketDAO.getInstancia().changeStatus(ticketNumber, statusId);
 	};
 
 

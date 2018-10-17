@@ -4,10 +4,7 @@ import controller.Application;
 import excepciones.AccesoException;
 import excepciones.ConexionException;
 import excepciones.NoFreeConnectionException;
-import modelo.Status;
-import modelo.Ticket;
-import modelo.TicketComposite;
-import modelo.TicketLeaf;
+import modelo.*;
 import persistence.ConnectionPool;
 
 import java.sql.*;
@@ -160,6 +157,36 @@ public class TicketDAO extends Mapper {
             e.printStackTrace();
         }
     }
+
+    public void addTicketHistorical(TicketHistorical history) {
+
+        try {
+            Connection con = ConnectionPool.getInstancia().getConexion();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket_historical(log, ticket_number, date) values(?,?,?)");
+            ps.setString(1, history.getLog());
+            ps.setInt(2, history.getTicketNumber());
+            ps.setDate(3, new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+            ps.execute();
+            ConnectionPool.getInstancia().returnConexion(con);
+        } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeStatus(int ticketNumber, int statusId) {
+        try {
+            Connection con = ConnectionPool.getInstancia().getConexion();
+            PreparedStatement pre = con.prepareStatement("update "
+                    + super.getDatabase()
+                    + ".dbo.Ticket set status_id=? where ticket_number=?");
+            pre.setInt(1, statusId);
+            pre.setInt(2, ticketNumber);
+            pre.execute();
+            ConnectionPool.getInstancia().returnConexion(con);
+        } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
+            e.printStackTrace();
+        }
+    }
 //
 //
 //
@@ -182,35 +209,7 @@ public class TicketDAO extends Mapper {
 //	}
 //
 //	// ya esta probado, anda
-//	public void cerrarReclamo(Reclamo rec) {
-//		try {
-//			Connection con = Conexion.connect();
-//			PreparedStatement pre = con.prepareStatement("update "
-//					+ super.getDatabase()
-//					+ ".dbo.reclamos set estado=? where idReclamo=?");
-//			pre.setString(1, "cerrado");
-//			pre.setInt(2, rec.getIdReclamo());
-//			pre.execute();
-//			PreparedStatement ps = con.prepareStatement("select * from "
-//					+ super.getDatabase() + ".dbo.reclamos where idReclamo=?");
-//			ps.setInt(1, rec.getIdReclamo());
-//			ResultSet res = ps.executeQuery();
-//			int resultado = 0;
-//			while (res.next()) {
-//				resultado = res.getInt("idTratamiento");
-//			}
-//			PreparedStatement in = con
-//					.prepareStatement("update "
-//							+ super.getDatabase()
-//							+ ".dbo.tratamientos set fechaTratamiento=? where idTratamiento=?");
-//			in.setString(1, cal.getTime().toString());
-//			in.setInt(2, resultado);
-//			in.execute();
-//			con.close();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
+
 //
 //	public int traerUltimoId() {
 //		int resu = 0;
