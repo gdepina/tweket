@@ -86,8 +86,7 @@ public class UserDAO extends Mapper {
 		try {
 			
 			Connection con = ConnectionPool.getInstancia().getConexion();
-			PreparedStatement ps = con
-					.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.users WHERE user_name=?");
+			PreparedStatement ps = con.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.users WHERE user_name=?");
 			ps.setString(1, userName);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

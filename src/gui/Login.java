@@ -71,7 +71,7 @@ public class Login extends JFrame {
 									comboRoles.addItem(type);
 								}
 							} else
-								JOptionPane.showMessageDialog(null, "Usuario y Contrase�a incorrectos", "Error",
+								JOptionPane.showMessageDialog(null, "Usuario y Contraseña incorrectos", "Error",
 										JOptionPane.INFORMATION_MESSAGE);
 
 						}
