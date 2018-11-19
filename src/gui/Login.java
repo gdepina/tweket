@@ -143,30 +143,30 @@ public class Login extends JFrame {
 //				fAdm.setVisible(true);
 				break; // optional
 
-			case "Zona Entrega" :
-				DashZone fZone = new DashZone();
-				fZone.setLocationRelativeTo(null);
-				fZone.setVisible(true);
+			case "Zona Entrega" :			
+				DashTicket fZone = new DashTicket(new String[] {"Zona Entrega"});
+				fZone.frame.setLocationRelativeTo(null);
+				fZone.frame.setVisible(true);
 				break; // optional
 			case "CallCenter" :
 				DashCallCenter fCallCenter = new DashCallCenter();
-				fCallCenter.setLocationRelativeTo(null);
-				fCallCenter.setVisible(true);
+				fCallCenter.frame.setLocationRelativeTo(null);
+				fCallCenter.frame.setVisible(true);
 				break; // optional
 			case "Distribucion" :
-//				DashLogistics fLogistics = new DashLogistics();
-//				fLogistics.setLocationRelativeTo(null);
-//				fLogistics.setVisible(true);
-				break; // optional
-			case "Consulta" :
-//				DashConsult fConsult = new DashConsult();
-//				fConsult.setLocationRelativeTo(null);
-//				fConsult.setVisible(true);
+				DashTicket fDist = new DashTicket(new String[] {"Producto", "Cantidad", "Faltante"} ) ;
+				fDist.frame.setLocationRelativeTo(null);
+				fDist.frame.setVisible(true);
+				break;
+			case "Consulta" :				
+				DashConsulta fConsult = new DashConsulta();
+				fConsult.frame.setLocationRelativeTo(null);
+				fConsult.frame.setVisible(true);
 				break; // optional
 			case "Facturacion" :
-//				DashBilling fBilling = new DashBilling();
-//				fBilling.setLocationRelativeTo(null);
-//				fBilling.setVisible(true);
+				DashTicket fFact = new DashTicket(new String[] {"Facturacion"});
+				fFact.frame.setLocationRelativeTo(null);
+				fFact.frame.setVisible(true);
 				break; // optional
 
 			// You can have any number of case statements.

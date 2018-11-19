@@ -18,7 +18,7 @@ public class Observer {
         this.observables.remove(obs);
     }
 
-    protected void notifyObservables() {
+    public void notifyObservables() {
         for (Observable obs: this.observables) {
             obs.update();
         }

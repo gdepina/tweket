@@ -6,9 +6,8 @@ import java.util.List;
 public class BillingTicket extends TicketLeaf {
 	private int billId;
 
-	public BillingTicket(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int billId) {
-		super(ticketNumber, type, description, client, status, product, creationDate, endingDate);
-		this.billId = billId;
+	public BillingTicket(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int qty) {
+		super(ticketNumber, type, description, client, status, product, creationDate, endingDate, qty);		
 	}
 
 	public BillingTicket() {
@@ -44,7 +43,7 @@ public class BillingTicket extends TicketLeaf {
 	}
 
 	@Override
-	public void addTicket(Ticket ticket) {
+	public void addTicket() {
 		// TODO Auto-generated method stub
 
 	}

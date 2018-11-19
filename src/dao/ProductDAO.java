@@ -79,5 +79,24 @@ public class ProductDAO extends Mapper {
 		}
 		return pro;
 	}
+	
+	public Product getProductByName (String name) {
+		Product pro = null;
+		try {
+			Connection con = ConnectionPool.getInstancia().getConexion();
+			PreparedStatement ps = con
+					.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.product WHERE title=?");
+			ps.setString(1, name);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				pro = new Product(rs.getString ("product_code"), rs.getString("title"), rs.getString("description"),
+						rs.getFloat("price"));
+			}
+			ConnectionPool.getInstancia().returnConexion(con);
+		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
+			e.printStackTrace();
+		}
+		return pro;
+	}
 
 }

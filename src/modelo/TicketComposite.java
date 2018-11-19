@@ -9,8 +9,8 @@ import java.util.List;
 public class TicketComposite extends Ticket {
 	private List<Ticket> tickets;
 
-	public TicketComposite(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, List<Ticket> tickets) {
-		super(ticketNumber, type, description, client, status, product, creationDate, endingDate);
+	public TicketComposite(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, List<Ticket> tickets, int qty) {
+		super(ticketNumber, type, description, client, status, product, creationDate, endingDate, qty);
 		this.tickets = tickets;
 	}
 
@@ -28,7 +28,7 @@ public class TicketComposite extends Ticket {
 
 	// METODOS
 
-	public void addTicket(Ticket ticket) {
+	public void addTicket() {
 		TicketDAO.getInstancia().addTicketComposite(this);
 	}
 
@@ -63,7 +63,6 @@ public class TicketComposite extends Ticket {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 
 }

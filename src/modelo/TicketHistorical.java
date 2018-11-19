@@ -1,24 +1,29 @@
 package modelo;
 
-import dao.TicketDAO;
-
-import java.util.Calendar;
 import java.util.Date;
+
+import dao.TicketDAO;
 
 public class TicketHistorical {
 	private int id;
 	private int ticketNumber;
 	private String log;
 	private Date date;
+	private int userId;
 
-	public TicketHistorical(String log, int ticketNumber) {
+	public TicketHistorical(String log, int ticketNumber,int userId) {
 		super();
 		this.log = log;
 		this.ticketNumber = ticketNumber;
+		this.userId = userId;
+	}
+	
+	public int getUserId() {
+		return userId;
 	}
 
-	public static void addHistory(TicketHistorical tckHistory) {
-		TicketDAO.getInstancia().addTicketHistorical(tckHistory);
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public int getTicketNumber() {
@@ -56,8 +61,8 @@ public class TicketHistorical {
 	
 	//METODOS
 
-	public void addLog(String log) {
-
+	public void addLog() {
+		TicketDAO.getInstancia().addTicketHistorical(this);
 	}
 
 }

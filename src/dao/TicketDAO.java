@@ -46,7 +46,52 @@ public class TicketDAO extends Mapper {
                         getStatus(con, rs.getInt("status_id")),
                         Application.getInstancia().getProduct(rs.getString("product_code")),
                         rs.getDate("creation_date"),
-                        rs.getDate("ending_date")
+                        rs.getDate("ending_date"),
+                        rs.getInt("quantity")
+                ));
+            }
+            ConnectionPool.getInstancia().returnConexion(con);
+        } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
+            e.printStackTrace();
+        }
+
+        return tickets;
+    }
+    
+    public ArrayList<Ticket> getTicketsByType(String[] args) {
+    	String statement = "(";
+    	    	
+    	for (int i = 0; i < args.length; i++) {
+    		if (i+1 == args.length) {
+    			statement += "?";	
+    		} else {
+    			statement += "?,";
+    		}
+    		
+		}
+    	statement+= ")";
+
+        ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+        try {
+            Connection con = ConnectionPool.getInstancia().getConexion();
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.Ticket where type in "+statement);          
+            
+            for (int i = 0; i < args.length; i++) {
+            	ps.setString(i+1, args[i]);							
+			}
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                tickets.add(new TicketLeaf(
+                        rs.getInt("ticket_number"),
+                        rs.getString("type"),
+                        rs.getString("description"),
+                        Application.getInstancia().getClient(rs.getInt("client_id")),
+                        getStatus(con, rs.getInt("status_id")),
+                        Application.getInstancia().getProduct(rs.getString("product_code")),
+                        rs.getDate("creation_date"),
+                        rs.getDate("ending_date"),
+                        rs.getInt("quantity")
                 ));
             }
             ConnectionPool.getInstancia().returnConexion(con);
@@ -75,7 +120,8 @@ public class TicketDAO extends Mapper {
                         getStatus(con, rs.getInt("status_id")),
                         Application.getInstancia().getProduct(rs.getString("product_code")),
                         rs.getDate("creation_date"),
-                        rs.getDate("ending_date")
+                        rs.getDate("ending_date"),
+                        rs.getInt("quantity")
                 ));
             }
             ConnectionPool.getInstancia().returnConexion(con);
@@ -108,13 +154,14 @@ public class TicketDAO extends Mapper {
 
         try {
             Connection con = ConnectionPool.getInstancia().getConexion();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket(type, description, creation_date,client_id, status_id, product_code) values(?,?,?,?,?,?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket(type, description, creation_date,client_id, status_id, product_code, quantity) values(?,?,?,?,?,?,?)");
             ps.setString(1, tck.getType());
             ps.setString(2, tck.getDescription());
             ps.setDate(3, new java.sql.Date(Calendar.getInstance().getTime().getTime()));
             ps.setInt(4, tck.getClient().getId());
             ps.setInt(5, 1); //Estado uno creado pendiente de revision
             ps.setString(6, tck.getProduct().getProductCode());
+            ps.setInt(7, tck.getQuantity());
             ps.execute();
             ConnectionPool.getInstancia().returnConexion(con);
         } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
@@ -140,7 +187,7 @@ public class TicketDAO extends Mapper {
                 }
             }
 
-            PreparedStatement in = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket(type, description, creation_date,client_id, status_id, product_code, composite_id) values(?,?,?,?,?,?,?)");
+            PreparedStatement in = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket(type, description, creation_date,client_id, status_id, product_code, composite_id, quantity) values(?,?,?,?,?,?,?,?)");
             for (Ticket tck : comp.getTickets()) {
                 in.setString(1, tck.getType());
                 in.setString(2, comp.getDescription());
@@ -149,6 +196,7 @@ public class TicketDAO extends Mapper {
                 in.setInt(5, 1);
                 in.setString(6, comp.getProduct().getProductCode());
                 in.setInt(7, identity);
+                in.setInt(8, comp.getQuantity());
                 in.execute();
             }
 
@@ -162,10 +210,11 @@ public class TicketDAO extends Mapper {
 
         try {
             Connection con = ConnectionPool.getInstancia().getConexion();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket_historical(log, ticket_number, date) values(?,?,?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket_historical(log, ticket_number, date, user_id) values(?,?,?)");
             ps.setString(1, history.getLog());
             ps.setInt(2, history.getTicketNumber());
             ps.setDate(3, new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+            ps.setInt(4, history.getUserId());
             ps.execute();
             ConnectionPool.getInstancia().returnConexion(con);
         } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
@@ -174,13 +223,28 @@ public class TicketDAO extends Mapper {
     }
 
     public void changeStatus(int ticketNumber, int statusId) {
+    	int paramsSet = 0;
+    	String params = "";
+    	if (statusId == 4) {
+    		params = ",ending_date=?";
+    		paramsSet++;
+    	}
         try {
             Connection con = ConnectionPool.getInstancia().getConexion();
             PreparedStatement pre = con.prepareStatement("update "
                     + super.getDatabase()
-                    + ".dbo.Ticket set status_id=? where ticket_number=?");
+                    + ".dbo.Ticket set status_id=? "+params+" where ticket_number=?");
             pre.setInt(1, statusId);
-            pre.setInt(2, ticketNumber);
+            
+            int curr = 1;           
+            while(curr <= paramsSet){
+            	pre.setDate(2, new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+            	++curr;
+            }
+            
+            pre.setInt(3, ticketNumber);
+           
+            
             pre.execute();
             ConnectionPool.getInstancia().returnConexion(con);
         } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {

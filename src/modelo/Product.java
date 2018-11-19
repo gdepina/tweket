@@ -66,12 +66,4 @@ public class Product {
 
 	}
 
-	public static ArrayList<Product> getProducts() {
-		return ProductDAO.getInstancia().getProducts();
-	}
-
-	public static Product getProduct(String code) {
-		return ProductDAO.getInstancia().getProduct(code);
-	}
-
 }

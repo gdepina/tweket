@@ -8,9 +8,8 @@ public class ProductTicketContext extends TicketLeaf {
 	private Product product;
 	private StrategyTicket strategy;
 
-
 	public ProductTicketContext(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int quantity) {
-		super(ticketNumber, type, description, client, status, product, creationDate, endingDate);
+		super(ticketNumber, type, description, client, status, product, creationDate, endingDate, quantity);
 		this.quantity = quantity;
 	}
 
@@ -18,13 +17,13 @@ public class ProductTicketContext extends TicketLeaf {
 		super();
 		this.strategy = new ProductTicketStrategy();
 		this.setType(strategyType);
-		if (strategyType.equals("faltante")){
+		if (strategyType.toLowerCase().equals("faltante")){
 			this.strategy = new MissingTicketStrategy();
 		}
-		if (strategyType.equals("Cantidad"))  {
+		if (strategyType.toLowerCase().equals("cantidad"))  {
 			this.strategy = new QuantityTicketStrategy();
 		}
-		if (strategyType.equals("Porducto")) {
+		if (strategyType.toLowerCase().equals("croducto")) {
 			this.strategy = new ProductTicketStrategy();
 		}
 	}
@@ -57,7 +56,7 @@ public class ProductTicketContext extends TicketLeaf {
 	}
 
 	@Override
-	public void addTicket(Ticket ticket) {
+	public void addTicket() {
 		// TODO Auto-generated method stub
 
 	}

@@ -9,6 +9,7 @@ import java.util.List;
 
 public abstract class Ticket {
 	private int ticketNumber;
+	private int quantity;
 	private String type;
 	private String description;
 	private Client client;
@@ -26,7 +27,7 @@ public abstract class Ticket {
 		this.product = product;
 	}
 
-	public Ticket(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate) {
+	public Ticket(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int quantity) {
 		this.ticketNumber = ticketNumber;
 		this.type = type;
 		this.description = description;
@@ -35,6 +36,7 @@ public abstract class Ticket {
 		this.product = product;
 		this.creationDate = creationDate;
 		this.endingDate = endingDate;
+		this.quantity = quantity;
 	}
 
 	public Ticket() {
@@ -43,8 +45,16 @@ public abstract class Ticket {
 
 	public TicketView toView() {
 		TicketView ticketView = new TicketView(this.ticketNumber,
-				this.description, this.type, this.status, this.creationDate, this.endingDate, this.client);
+				this.description, this.type, this.status, this.creationDate, this.endingDate, this.client, this.product, this.quantity);
 		return ticketView;
+	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public int getTicketNumber() {
@@ -116,7 +126,7 @@ public abstract class Ticket {
 	}
 	
 	//METODOS
-	public abstract void addTicket(Ticket ticket);
+	public abstract void addTicket();
 
 	public abstract void removeTicket();
 
@@ -130,21 +140,10 @@ public abstract class Ticket {
 	public abstract void finalizeTicket();
 	// a este metodo lo mismo, no tendriamos que pasarle un numero de ticket???
 
-//	public ArrayList<Ticket> getTickets() {
-//		return TicketDAO.getInstancia().getTickets();
-//	};
+	public void changeStatus(int statusId) {
+		TicketDAO.getInstancia().changeStatus(this.getTicketNumber(), statusId);
+	}
 
-	public static ArrayList<Ticket> getTickets(String type) {
-		return TicketDAO.getInstancia().getTicketsByType(type);
-	};
-
-	public static Ticket getTicket(int id) {
-		return TicketDAO.getInstancia().getTicket(id);
-	};
-
-	public static void changeStatus(int ticketNumber, int statusId) {
-		TicketDAO.getInstancia().changeStatus(ticketNumber, statusId);
-	};
 
 
 

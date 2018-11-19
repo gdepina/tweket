@@ -3,12 +3,11 @@ package modelo;
 import dao.TicketDAO;
 
 import java.util.Date;
-import java.util.List;
 
 public class TicketLeaf extends Ticket {
 
-	public TicketLeaf(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate) {
-		super(ticketNumber, type, description, client, status, product, creationDate, endingDate);
+	public TicketLeaf(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int qty) {
+		super(ticketNumber, type, description, client, status, product, creationDate, endingDate, qty);
 	}
 
 	public TicketLeaf() {
@@ -17,7 +16,7 @@ public class TicketLeaf extends Ticket {
 
 
 	@Override
-	public void addTicket(Ticket ticket) {
+	public void addTicket() {
 		TicketDAO.getInstancia().addTicket(this);
 
 	}

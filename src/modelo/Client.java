@@ -94,11 +94,4 @@ public class Client {
 
 	}
 
-	public static Client getClient(int clientId) {
-		return ClientDAO.getInstancia().getClient(clientId);
-	}
-	public static ArrayList<Client> getClients() {
-		return ClientDAO.getInstancia().getClients();
-	}
-
 }

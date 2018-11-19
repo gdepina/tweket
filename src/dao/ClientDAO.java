@@ -78,6 +78,26 @@ public class ClientDAO extends Mapper {
         }
         return cli;
     }
+    
+    public Client getClientByName(String name) {
+        Client cli = null;
+        try {
+            Connection con = ConnectionPool.getInstancia().getConexion();
+            PreparedStatement ps = con
+                    .prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.client WHERE name=?");
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                cli = new Client(rs.getInt("id"), rs.getString("name"), rs.getString("address"),
+                        this.getZoneById(con, rs.getInt("zone_code")), rs.getString("phone"), rs.getString("mail"),
+                        rs.getString("dni"));
+            }
+            ConnectionPool.getInstancia().returnConexion(con);
+        } catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
+            e.printStackTrace();
+        }
+        return cli;
+    }
 
     private ZoneLocation getZoneById(Connection con, int id) {
         int zoneCode = 0;

@@ -65,14 +65,4 @@ public class User {
 	public void addUser(int id, String userName, String pass) {
 		
 	}
-	
-	public static boolean logIn(String userName, String pw) {
-		return UserDAO.getInstancia().logIn(userName, pw);
-	}
-
-    public static User getUser(String userName) {
-        return UserDAO.getInstancia().getUser(userName);
-    }
-
-
 }
