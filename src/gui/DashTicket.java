@@ -1,13 +1,21 @@
 package gui;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
@@ -18,14 +26,6 @@ import javax.swing.table.TableModel;
 
 import controller.Application;
 import view.TicketView;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JTextField;
 
 public class DashTicket {
 
@@ -88,7 +88,7 @@ public class DashTicket {
 		lblEstado.setBounds(36, 550, 61, 16);
 		frame.getContentPane().add(lblEstado);
 		
-		JRadioButton rbRechazo = new JRadioButton("Solucionado");
+		JRadioButton rbRechazo = new JRadioButton("Rechazado");
 		rbRechazo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -104,11 +104,15 @@ public class DashTicket {
 		JRadioButton rbCerrado = new JRadioButton("Cerrado");
 		rbCerrado.setBounds(632, 546, 141, 23);
 		frame.getContentPane().add(rbCerrado);
+		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.setEnabled(false);
 		
 		rbRechazo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rbEnCurso.setSelected(false);
 				rbCerrado.setSelected(false);
+				btnGuardar.setEnabled(true);
+				
 			}
 		});
 		
@@ -116,6 +120,7 @@ public class DashTicket {
 			public void actionPerformed(ActionEvent e) {
 				rbRechazo.setSelected(false);
 				rbCerrado.setSelected(false);
+				btnGuardar.setEnabled(true);
 			}
 		});
 		
@@ -123,6 +128,7 @@ public class DashTicket {
 			public void actionPerformed(ActionEvent e) {
 				rbRechazo.setSelected(false);
 				rbEnCurso.setSelected(false);
+				btnGuardar.setEnabled(true);
 			}
 		});
 		
@@ -135,11 +141,11 @@ public class DashTicket {
 		frame.getContentPane().add(txtTratamiento);
 		
 			
-		JButton btnGuardar = new JButton("Guardar");
+	
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int state = 0;
-				int ticketNumber = Integer.valueOf((String) table.getValueAt(table.getSelectedRow(), 0));;			
+				int ticketNumber = Integer.valueOf((String) table.getValueAt(table.getSelectedRow(), 0));		
                 if (rbRechazo.isSelected()) {
                     state = 2;
                 }
@@ -149,15 +155,22 @@ public class DashTicket {
                 if (rbCerrado.isSelected()) {
                     state = 4;
                 }
-                Application.getInstancia().changeTicketState(state, ticketNumber);
-                Application.getInstancia().addLog(txtTratamiento.getText(), ticketNumber);
-                updateTable();
+                if (state == 0) {
+                	JOptionPane.showMessageDialog(null, "Debe seleccionar un estado", "Estado invalido",
+							JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                	txtTratamiento.setText("");
+	                Application.getInstancia().changeTicketState(state, ticketNumber, txtTratamiento.getText());                
+	                updateTable();
+                }
 			}
 		});
 		btnGuardar.setBounds(36, 587, 117, 29);
 		frame.getContentPane().add(btnGuardar);
 		
 		JTextArea txtDesc = new JTextArea();
+		txtDesc.setWrapStyleWord(true);
+		txtDesc.setLineWrap(true);
 		txtDesc.setEditable(false);
 		txtDesc.setBounds(36, 292, 737, 79);
 		frame.getContentPane().add(txtDesc);
@@ -200,12 +213,30 @@ public class DashTicket {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (table.getSelectedRow() > -1) {
-					txtDesc.setText(table.getValueAt(table.getSelectedRow(), 4).toString());
-					String state = table.getValueAt(table.getSelectedRow(), 2).toString();
+					txtDesc.setText(table.getValueAt(table.getSelectedRow(), 8).toString());
+					String state = table.getValueAt(table.getSelectedRow(), 3).toString();
 					if (state.toLowerCase().equals("en curso")) {
 						rbEnCurso.setSelected(true);
+						rbRechazo.setSelected(false);
+						rbCerrado.setSelected(false);
 					} else {
 						rbEnCurso.setSelected(false);
+					}
+					
+					if (state.toLowerCase().equals("rechazado")) {
+						rbEnCurso.setSelected(false);
+						rbRechazo.setSelected(true);
+						rbCerrado.setSelected(false);
+					} else {
+						rbRechazo.setSelected(false);
+					}
+					
+					if (state.toLowerCase().equals("cerrado")) {
+						rbEnCurso.setSelected(false);
+						rbRechazo.setSelected(false);
+						rbCerrado.setSelected(true);
+					} else {
+						rbCerrado.setSelected(false);
 					}
 		        }
 				
@@ -218,6 +249,7 @@ public class DashTicket {
         List<String[]> values = new ArrayList<String[]>();
         
         columns.add("Reclamo #");
+        columns.add("Tipo");
         columns.add("Cliente");
         columns.add("Estado");
         columns.add("Fecha creación");       
@@ -227,7 +259,7 @@ public class DashTicket {
         columns.add("Desc");
 		
         for (TicketView tck : Application.getInstancia().getTickets(this.type)) {
-        	values.add(new String[] {Integer.toString(tck.getTicketNumber()), tck.getClient().getName(), tck.getStatus().getName(),
+        	values.add(new String[] {Integer.toString(tck.getTicketNumber()),tck.getType(), tck.getClient().getName(), tck.getStatus().getName(),
         			tck.getCreationDate().toString(), tck.getProduct().getTitle(), tck.getClient().getZone().getName(),Integer.toString(tck.getQuantity()), tck.getDescription()});
         }
         

@@ -1,20 +1,27 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import controller.Application;
 import excepciones.AccesoException;
 import excepciones.ConexionException;
 import excepciones.NoFreeConnectionException;
-import modelo.*;
+import modelo.Status;
+import modelo.Ticket;
+import modelo.TicketComposite;
+import modelo.TicketHistorical;
+import modelo.TicketLeaf;
 import persistence.ConnectionPool;
-
-import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
 
 public class TicketDAO extends Mapper {
 
+	private static int CLOSE_STATE = 4;
     private static TicketDAO instancia;
     Calendar cal = Calendar.getInstance();
 
@@ -47,7 +54,8 @@ public class TicketDAO extends Mapper {
                         Application.getInstancia().getProduct(rs.getString("product_code")),
                         rs.getDate("creation_date"),
                         rs.getDate("ending_date"),
-                        rs.getInt("quantity")
+                        rs.getInt("quantity"),
+                        rs.getInt("composite_id")
                 ));
             }
             ConnectionPool.getInstancia().returnConexion(con);
@@ -74,8 +82,7 @@ public class TicketDAO extends Mapper {
         ArrayList<Ticket> tickets = new ArrayList<Ticket>();
         try {
             Connection con = ConnectionPool.getInstancia().getConexion();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.Ticket where type in "+statement);          
-            
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.Ticket where status_id !="+CLOSE_STATE+" AND type in "+statement);                      
             for (int i = 0; i < args.length; i++) {
             	ps.setString(i+1, args[i]);							
 			}
@@ -91,7 +98,8 @@ public class TicketDAO extends Mapper {
                         Application.getInstancia().getProduct(rs.getString("product_code")),
                         rs.getDate("creation_date"),
                         rs.getDate("ending_date"),
-                        rs.getInt("quantity")
+                        rs.getInt("quantity"),
+                        rs.getInt("composite_id")
                 ));
             }
             ConnectionPool.getInstancia().returnConexion(con);
@@ -121,7 +129,8 @@ public class TicketDAO extends Mapper {
                         Application.getInstancia().getProduct(rs.getString("product_code")),
                         rs.getDate("creation_date"),
                         rs.getDate("ending_date"),
-                        rs.getInt("quantity")
+                        rs.getInt("quantity"),
+                        rs.getInt("composite_id")
                 ));
             }
             ConnectionPool.getInstancia().returnConexion(con);
@@ -210,11 +219,11 @@ public class TicketDAO extends Mapper {
 
         try {
             Connection con = ConnectionPool.getInstancia().getConexion();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket_historical(log, ticket_number, date, user_id) values(?,?,?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket_historical(log, ticket_number, user_id, date) values(?,?,?,?)");
             ps.setString(1, history.getLog());
             ps.setInt(2, history.getTicketNumber());
-            ps.setDate(3, new java.sql.Date(Calendar.getInstance().getTime().getTime()));
-            ps.setInt(4, history.getUserId());
+            ps.setInt(3, history.getUserId());
+            ps.setDate(4, new java.sql.Date(Calendar.getInstance().getTime().getTime()));           
             ps.execute();
             ConnectionPool.getInstancia().returnConexion(con);
         } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
@@ -222,15 +231,15 @@ public class TicketDAO extends Mapper {
         }
     }
 
-    public void changeStatus(int ticketNumber, int statusId) {
+    public void changeStatus(int ticketNumber, int statusId, int compositeId) {
     	int paramsSet = 0;
     	String params = "";
-    	if (statusId == 4) {
+    	if (statusId == CLOSE_STATE) {
     		params = ",ending_date=?";
     		paramsSet++;
     	}
         try {
-            Connection con = ConnectionPool.getInstancia().getConexion();
+            Connection con = ConnectionPool.getInstancia().getConexion();                                                           
             PreparedStatement pre = con.prepareStatement("update "
                     + super.getDatabase()
                     + ".dbo.Ticket set status_id=? "+params+" where ticket_number=?");
@@ -242,53 +251,36 @@ public class TicketDAO extends Mapper {
             	++curr;
             }
             
-            pre.setInt(3, ticketNumber);
-           
-            
+            pre.setInt(++curr, ticketNumber);
             pre.execute();
+            
+            checkAndCloseComposite(compositeId, con);
             ConnectionPool.getInstancia().returnConexion(con);
         } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
             e.printStackTrace();
         }
     }
-//
-//
-//
-//
-//	// ya esta probado, anda
-//	public void agregarTratamientoEnReclamo(Reclamo rec, Tratamiento tra) {
-//		try {
-//			Connection con = Conexion.connect();
-//			int numero=0;
-//			PreparedStatement ps = con.prepareStatement("UPDATE "
-//					+ super.getDatabase()
-//					+ ".dbo.reclamos SET idTratamiento = ? WHERE idReclamo=?");
-//			ps.setInt(1, tra.getIdTratamiento());
-//			ps.setInt(2, rec.getIdReclamo());
-//			ps.execute();
-//			con.close();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	// ya esta probado, anda
 
-//
-//	public int traerUltimoId() {
-//		int resu = 0;
-//		try {
-//			Connection con = Conexion.connect();
-//			PreparedStatement ps = con.prepareStatement("SELECT top 1 idReclamo from "+ super.getDatabase()+".dbo.reclamos order by idReclamo desc");
-//			ResultSet res = ps.executeQuery();
-//			while (res.next())
-//				resu = res.getInt("idReclamo");
-//			con.close();
-//		}
-//		catch (SQLException e){
-//			e.printStackTrace();
-//		}
-//		return resu;
-//	}
+	private void checkAndCloseComposite(int compositeId, Connection con) throws SQLException {
+		if (compositeId != 0) {
+		    PreparedStatement ps = con.prepareStatement("SELECT * FROM " + super.getDatabase() + ".dbo.ticket WHERE status_id != ? AND composite_id=?");           
+		    ps.setInt(1, CLOSE_STATE);  
+		    ps.setInt(2, compositeId);  
+		    ResultSet rs = ps.executeQuery();
+		    boolean empty = true;
+		    while( rs.next() ) {
+		        empty = false;
+		    }
 
+		    if( empty ) {
+		    	PreparedStatement ps1 = con.prepareStatement("update "
+		                + super.getDatabase()
+		                + ".dbo.ticket_composite set status_id=?, ending_date=? where id=?");
+		    	ps1.setInt(1, CLOSE_STATE);
+		    	ps1.setDate(2, new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+		    	ps1.setInt(3, compositeId);
+		    	ps1.execute();
+		    }
+		}
+	}
 }

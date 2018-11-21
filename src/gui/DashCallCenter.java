@@ -86,11 +86,13 @@ public class DashCallCenter extends JFrame implements Observable {
 		menuBar.add(mnOptions);
 		
 		JMenuItem mnClose = new JMenuItem("Cerrar sesión");
+		DashCallCenter that = this;
 		mnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login fLogin = new Login();
 				fLogin.setLocationRelativeTo(null);
 				fLogin.setVisible(true);
+				Application.getInstancia().remove(that);
 				frame.dispose();
 			}
 		});
@@ -99,6 +101,7 @@ public class DashCallCenter extends JFrame implements Observable {
 		JMenuItem mnSalir = new JMenuItem("Salir");
 		mnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Application.getInstancia().remove(that);
 				frame.dispose();
 			}
 		});
@@ -231,16 +234,17 @@ public class DashCallCenter extends JFrame implements Observable {
 		button_1.setBounds(597, 103, 40, 29);
 		frame.getContentPane().add(button_1);
 		
-		JButton btnGuardar = new JButton("Guardar");
-		ArrayList <String> tipoReclamos= new ArrayList <String>();
+		JButton btnGuardar = new JButton("Guardar");	
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ArrayList <String> tipoReclamos= new ArrayList <String>();
 				int clientId = Application.getInstancia().currentCli.getId();
 				String productCode = Application.getInstancia().currentProd.getProductCode();
+				int qty = txtCantidad.getText().equals("") ? 0 : Integer.parseInt(txtCantidad.getText());
 				
 				if (rbSimple.isSelected()) {
 					tipoReclamos.add(cbTicket1.getSelectedItem().toString());							
-					Application.getInstancia().saveTicket(tipoReclamos,clientId, txtAreaDesc.getText(), productCode, Integer.parseInt(txtCantidad.getText()));
+					Application.getInstancia().saveTicket(tipoReclamos,clientId, txtAreaDesc.getText(), productCode, qty);
 					
 
 				} else if (rdbtnCompuesto.isSelected()){
@@ -259,7 +263,7 @@ public class DashCallCenter extends JFrame implements Observable {
 					if (comboBox_2.getSelectedItem().toString().compareToIgnoreCase("Seleccionar") !=0){
 						tipoReclamos.add(comboBox_2.getSelectedItem().toString());
 					}
-					Application.getInstancia().saveTicket(tipoReclamos, clientId, txtAreaDesc.getText(), productCode, Integer.parseInt(txtCantidad.getText()));
+					Application.getInstancia().saveTicket(tipoReclamos, clientId, txtAreaDesc.getText(), productCode, qty);
 				}
 				this.cleanForm();
 				
@@ -278,6 +282,8 @@ public class DashCallCenter extends JFrame implements Observable {
 				comboBox.setSelectedIndex(0);
 				comboBox_1.setSelectedIndex(0);
 				comboBox_2.setSelectedIndex(0);
+				txtAreaDesc.setText("");
+				txtCantidad.setText("");
 				
 			}
 		});

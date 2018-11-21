@@ -6,8 +6,8 @@ import java.util.Date;
 
 public class TicketLeaf extends Ticket {
 
-	public TicketLeaf(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int qty) {
-		super(ticketNumber, type, description, client, status, product, creationDate, endingDate, qty);
+	public TicketLeaf(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int qty, int compositeId) {
+		super(ticketNumber, type, description, client, status, product, creationDate, endingDate, qty, compositeId);
 	}
 
 	public TicketLeaf() {
@@ -20,27 +20,5 @@ public class TicketLeaf extends Ticket {
 		TicketDAO.getInstancia().addTicket(this);
 
 	}
-
-	@Override
-	public void removeTicket() {
-
-	}
-
-	@Override
-	public void changeStatus(Status status) {
-
-	}
-
-	@Override
-	public boolean finalized() {
-		return false;
-	}
-
-	@Override
-	public void finalizeTicket() {
-
-	}
-
-	
 
 }

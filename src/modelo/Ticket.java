@@ -3,7 +3,6 @@ package modelo;
 import dao.TicketDAO;
 import view.TicketView;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +17,7 @@ public abstract class Ticket {
 	private List<TicketHistorical> historical;
 	private Date creationDate;
 	private Date endingDate;
+	private int compositeId;
 
 	public Product getProduct() {
 		return product;
@@ -27,7 +27,7 @@ public abstract class Ticket {
 		this.product = product;
 	}
 
-	public Ticket(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int quantity) {
+	public Ticket(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, int quantity, int compositeId) {
 		this.ticketNumber = ticketNumber;
 		this.type = type;
 		this.description = description;
@@ -37,6 +37,7 @@ public abstract class Ticket {
 		this.creationDate = creationDate;
 		this.endingDate = endingDate;
 		this.quantity = quantity;
+		this.compositeId = compositeId;
 	}
 
 	public Ticket() {
@@ -125,27 +126,24 @@ public abstract class Ticket {
 		this.endingDate = endingDate;
 	}
 	
-	//METODOS
 	public abstract void addTicket();
 
-	public abstract void removeTicket();
-
-	public abstract void changeStatus(Status status);
-	
-
-	public abstract boolean finalized();
-	// a este metodo no tendriamos que pasarle un numero de ticket para saber su
-	// estado???
-
-	public abstract void finalizeTicket();
-	// a este metodo lo mismo, no tendriamos que pasarle un numero de ticket???
 
 	public void changeStatus(int statusId) {
-		TicketDAO.getInstancia().changeStatus(this.getTicketNumber(), statusId);
+		TicketDAO.getInstancia().changeStatus(this.getTicketNumber(), statusId, this.getCompositeId());
 	}
 
+	public int getCompositeId() {
+		return compositeId;
+	}
 
-
+	public void setCompositeId(int compositeId) {
+		this.compositeId = compositeId;
+	}
+	
+	public boolean isComposite() {
+		return this.compositeId != 0;
+	}
 
 
 }

@@ -18,6 +18,11 @@ import controller.Application;
 
 public class Login extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	{
 		// Set Look & Feel
 		try {
@@ -66,6 +71,7 @@ public class Login extends JFrame {
 				btn_roles.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
 						if (event.getSource() == btn_roles) {
+							comboRoles.removeAllItems();
 							if ((Application.getInstancia()).checkUser(t_usuario.getText(), t_password.getText())) {
 								for (String type : Application.getInstancia().getRolesByUser(t_usuario.getText())) {
 									comboRoles.addItem(type);
@@ -98,7 +104,7 @@ public class Login extends JFrame {
 			{
 				Contrasenia = new JLabel();
 				getContentPane().add(Contrasenia);
-				Contrasenia.setText("Contrasenia");
+				Contrasenia.setText("Contraseña");
 				Contrasenia.setBounds(12, 73, 94, 14);
 			}
 			{
@@ -142,7 +148,6 @@ public class Login extends JFrame {
 //				fAdm.setLocationRelativeTo(null);
 //				fAdm.setVisible(true);
 				break; // optional
-
 			case "Zona Entrega" :			
 				DashTicket fZone = new DashTicket(new String[] {"Zona Entrega"});
 				fZone.frame.setLocationRelativeTo(null);

@@ -7,7 +7,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
 
@@ -16,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 import excepciones.AccesoException;
 import excepciones.ConexionException;
 import excepciones.NoFreeConnectionException;
-import modelo.Product;
 import persistence.ConnectionPool;
 
 public class ConsultaDAO extends Mapper {

@@ -72,7 +72,6 @@ public class Application extends Observer {
 		}
 		if (res == null)
 			res = TicketDAO.getInstancia().getTicket(ticketNumber);
-		;
 		return res;
 	}
 
@@ -159,7 +158,7 @@ public class Application extends Observer {
 		if (type.equals("Zona Entrega"))
 			tck = new ZoneTicket(type);
 		else if (type.equals("Faltante") || type.equals("Cantidad") || type.equals("Producto"))
-			tck = new ProductTicketContext(type);
+			tck = new ProductTicketContext(type); //Patron strategy
 		else if (type.equals("Facturacion"))
 			tck = new BillingTicket(type);
 		return tck;
@@ -193,12 +192,9 @@ public class Application extends Observer {
 	}
 	
 
-	public void addLog(String log, int ticketNumber) {
-		new TicketHistorical(log, ticketNumber, currentUser.getId()).addLog();			
-	}
-
-	public void changeTicketState(int state, int ticketNumber) {
+	public void changeTicketState(int state, int ticketNumber, String log) {	
 		this.getTicket(ticketNumber).changeStatus(state);
+		new TicketHistorical(log, ticketNumber, currentUser.getId()).addLog();	
 	}
 	
 	public DefaultTableModel getTicketRankLogs() {

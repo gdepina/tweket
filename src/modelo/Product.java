@@ -1,9 +1,6 @@
 package modelo;
 
-import dao.ProductDAO;
 import view.ProductView;
-
-import java.util.ArrayList;
 
 public class Product {
 

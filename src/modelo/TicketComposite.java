@@ -9,8 +9,8 @@ import java.util.List;
 public class TicketComposite extends Ticket {
 	private List<Ticket> tickets;
 
-	public TicketComposite(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, List<Ticket> tickets, int qty) {
-		super(ticketNumber, type, description, client, status, product, creationDate, endingDate, qty);
+	public TicketComposite(int ticketNumber, String type, String description, Client client, Status status, Product product, Date creationDate, Date endingDate, List<Ticket> tickets, int qty, int compositeId) {
+		super(ticketNumber, type, description, client, status, product, creationDate, endingDate, qty, compositeId);
 		this.tickets = tickets;
 	}
 
@@ -26,42 +26,8 @@ public class TicketComposite extends Ticket {
 		this.tickets = tickets;
 	}
 
-	// METODOS
-
 	public void addTicket() {
 		TicketDAO.getInstancia().addTicketComposite(this);
-	}
-
-	public void removeTicket(Ticket ticket) {
-
-	}
-
-	public Ticket getTicket(Ticket ticket) {
-		return null;
-	}
-
-	public void getChild(int index) {
-
-	}
-
-	public void finalizeTicket() {
-		// este no lo hereda de la clase abstracta??? en el diagrama de clases, lo estamos poniendo 2 veces
-	}
-
-	public void removeTicket() {
-
-	}
-	// este metodo no es el mismo que arriba??? en el diagrama de clases, lo estamos poniendo 2 veces
-	//en uno le pasa parametros y en otro no
-
-	public boolean finalized() {
-		return false;
-	}
-
-	@Override
-	public void changeStatus(Status status) {
-		// TODO Auto-generated method stub
-		
 	}
 
 

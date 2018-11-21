@@ -26,14 +26,4 @@ public class Status {
 		this.name = name;
 	}
 
-	// METODOS
-
-	public void addStatus(String name) {
-
-	}
-
-	public void removeStatus(int id) {
-
-	}
-
 }
