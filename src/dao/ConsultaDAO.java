@@ -124,6 +124,31 @@ public class ConsultaDAO extends Mapper {
 		}
 		return qty;
 	}
+
+	public DefaultTableModel getAvgResponseTime() {
+		
+		
+		try {
+			String statement = "select u.user_name 'Usuario', avg(datediff(dd, t.creation_date, t.ending_date)) 'Días'"
+					+ "from " + super.getDatabase() + ".dbo.TICKET t "
+					+ "INNER JOIN " + super.getDatabase() + ".dbo.TICKET_HISTORICAL h on h.ticket_number = t.ticket_number "
+					+ "INNER JOIN " + super.getDatabase() + ".dbo.Users u on h.user_id = u.id "
+					+ "WHERE ending_date IS NOT NULL "
+					+ "group by u.user_name";
+			
+			Connection con = ConnectionPool.getInstancia().getConexion();
+			PreparedStatement ps = con
+					.prepareStatement(statement);
+			
+			DefaultTableModel resultModel = buildTableModel(ps.executeQuery());
+			ConnectionPool.getInstancia().returnConexion(con);
+			return resultModel;
+			
+		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	
 

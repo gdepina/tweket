@@ -191,6 +191,8 @@ public class DashCallCenter extends JFrame implements Observable {
 		frame.getContentPane().add(label_3);
 		
 		JTextArea txtAreaDesc = new JTextArea();
+		txtAreaDesc.setLineWrap(true);
+		txtAreaDesc.setWrapStyleWord(true);
 		txtAreaDesc.setBounds(30, 313, 727, 71);
 		frame.getContentPane().add(txtAreaDesc);
 		
@@ -284,6 +286,8 @@ public class DashCallCenter extends JFrame implements Observable {
 				comboBox_2.setSelectedIndex(0);
 				txtAreaDesc.setText("");
 				txtCantidad.setText("");
+				Application.getInstancia().currentCli = null;
+				Application.getInstancia().currentProd = null;
 				
 			}
 		});

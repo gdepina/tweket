@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import dao.ClientDAO;
 import dao.ConsultaDAO;
@@ -206,6 +207,10 @@ public class Application extends Observer {
 	}
 	public int getTicketsByMonth(int month) {
 		return ConsultaDAO.getInstancia().getTicketsByMonth(month);
+	}
+
+	public DefaultTableModel getAvgResponseTime() {
+		return ConsultaDAO.getInstancia().getAvgResponseTime();
 	}
 	
 	

@@ -25,6 +25,7 @@ public class DashConsulta {
 	JFrame frame;
 	private JTable table;
 	private JTable table_1;
+	private JTable table_2;
 
 	/**
 	 * Launch the application.
@@ -54,7 +55,7 @@ public class DashConsulta {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 795, 454);
+		frame.setBounds(100, 100, 795, 717);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -154,6 +155,27 @@ public class DashConsulta {
 		table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table_1.setRowSelectionAllowed(false);
 		scrollPane_1.setViewportView(table_1);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setBounds(19, 404, 772, 16);
+		frame.getContentPane().add(separator_2);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(19, 455, 370, 181);
+		frame.getContentPane().add(scrollPane_2);
+		
+		table_2 = new JTable(Application.getInstancia().getAvgResponseTime());
+		scrollPane_2.setViewportView(table_2);
+		
+		JLabel lblTiempoDeResputa = new JLabel("Tiempo de respuesta promedio en días");
+		lblTiempoDeResputa.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+		lblTiempoDeResputa.setBounds(19, 421, 370, 22);
+		frame.getContentPane().add(lblTiempoDeResputa);
+		
+		JSeparator separator_3 = new JSeparator();
+		separator_3.setOrientation(SwingConstants.VERTICAL);
+		separator_3.setBounds(399, 421, 10, 225);
+		frame.getContentPane().add(separator_3);
 		
 
 	}
