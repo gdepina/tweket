@@ -14,7 +14,6 @@ public abstract class Ticket {
 	private Client client;
 	private Status status;
 	private Product product;
-	private List<TicketHistorical> historical;
 	private Date creationDate;
 	private Date endingDate;
 	private int compositeId;
@@ -96,18 +95,6 @@ public abstract class Ticket {
 
 	public void setStatus(Status status) {
 		this.status = status;
-	}
-
-	public List<TicketHistorical> getHistorical() {
-		return historical;
-	}
-
-	public void setHistorical(List<TicketHistorical> historical) {
-		this.historical = historical;
-	}
-
-	public void addHistorical(TicketHistorical history) {
-		this.historical.add(history);
 	}
 
 	public Date getCreationDate() {

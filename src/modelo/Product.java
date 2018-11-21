@@ -53,13 +53,11 @@ public class Product {
 		this.price = price;
 	}
 
-	// METODOS
-
-	public void addProduct(Product product) {
+	public void save() {
 
 	}
 
-	public void removeProduct(Product product) {
+	public void remove() {
 
 	}
 

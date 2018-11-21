@@ -45,10 +45,8 @@ public class UserDAO extends Mapper {
 			while (rs.next()) {			
 				users.add(new User(rs.getInt("id"), rs.getString("user_name"), rs.getString("pass"), this.getRolesByUser(con,rs.getInt("id"))));
 			}
-
-		}
-
-		catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
+			ConnectionPool.getInstancia().returnConexion(con);
+		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
 		return users;
@@ -62,6 +60,7 @@ public class UserDAO extends Mapper {
 			ps.setInt(1, user.getId());
 			ps.setString(2, role.getType());
 			ps.execute();
+			ConnectionPool.getInstancia().returnConexion(con);
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
@@ -76,6 +75,7 @@ public class UserDAO extends Mapper {
 			ps.setInt(1, user.getId());
 			ps.setString(2, rol.getType());
 			ps.execute();
+			ConnectionPool.getInstancia().returnConexion(con);
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
@@ -92,6 +92,7 @@ public class UserDAO extends Mapper {
 			while (rs.next()) {
 				user = new User(rs.getInt("id"), rs.getString("user_name"), rs.getString("pass"), this.getRolesByUser(con,rs.getInt("id")));
 			}
+			ConnectionPool.getInstancia().returnConexion(con);
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}
@@ -111,6 +112,7 @@ public class UserDAO extends Mapper {
 			while (rs.next()) {
 				user = new User(rs.getInt("id"), rs.getString("user_name"), rs.getString("pass"), this.getRolesByUser(con,rs.getInt("id") ));
 			}
+			ConnectionPool.getInstancia().returnConexion(con);
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
 			e.printStackTrace();
 		}

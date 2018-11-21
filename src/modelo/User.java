@@ -62,7 +62,7 @@ public class User {
 		
 	}
 	
-	public void addUser(int id, String userName, String pass) {
+	public void addUser() {
 		
 	}
 }

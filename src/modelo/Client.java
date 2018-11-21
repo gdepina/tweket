@@ -83,11 +83,11 @@ public class Client {
 	}
 
 
-	public void addClient(String name, String homeAddress, int phone, String mail) {
+	public void addClient() {
 
 	}
 
-	public void removeClient(int id) {
+	public void removeClient() {
 
 	}
 

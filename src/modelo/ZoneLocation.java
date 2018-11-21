@@ -25,9 +25,8 @@ public class ZoneLocation {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	// METODOS
-	public void addZone(int code, String name) {
+	
+	public void addZone() {
 
 	}
 
