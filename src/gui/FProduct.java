@@ -1,24 +1,27 @@
 package gui;
 
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
+import javax.swing.JTextField;
 
 import controller.Application;
-import view.ProductView;
+import excepciones.PKDuplicadaException;
+
+import javax.swing.JTextArea;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FProduct {
 
-	JFrame frame;
-	private DefaultListModel listModel;
+	JFrame frmProducto;
+	private JTextField txtCode;
+	private JTextField txtTitle;
+	private JTextField txtPrice;
+	String action;
 
 	/**
 	 * Launch the application.
@@ -28,7 +31,7 @@ public class FProduct {
 			public void run() {
 				try {
 					FProduct window = new FProduct();
-					window.frame.setVisible(true);
+					window.frmProducto.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -43,55 +46,112 @@ public class FProduct {
 		initialize();
 	}
 
+	public FProduct(String action) {
+		this.action = action;
+		initialize();
+	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 287, 335);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmProducto = new JFrame();
+		frmProducto.setTitle("Producto");
+		frmProducto.setBounds(100, 100, 368, 262);
+		frmProducto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmProducto.getContentPane().setLayout(null);
 		
-		JLabel lblSeleccioneUnProducto = new JLabel("Seleccione un producto:");
-		lblSeleccioneUnProducto.setBounds(25, 18, 232, 16);
-		frame.getContentPane().add(lblSeleccioneUnProducto);
+		txtCode = new JTextField();
+		txtCode.setBounds(119, 19, 130, 26);
+		frmProducto.getContentPane().add(txtCode);
+		txtCode.setColumns(10);
 		
+		txtTitle = new JTextField();
+		txtTitle.setBounds(119, 50, 130, 26);
+		frmProducto.getContentPane().add(txtTitle);
+		txtTitle.setColumns(10);
 		
+		txtPrice = new JTextField();
+		txtPrice.setBounds(119, 82, 130, 26);
+		frmProducto.getContentPane().add(txtPrice);
+		txtPrice.setColumns(10);
 		
-		listModel = new DefaultListModel<>();
-		for (ProductView pro: Application.getInstancia().getProducts()){
-			listModel.addElement(pro.getName());
+		JTextArea txtDesc = new JTextArea();
+		txtDesc.setBounds(119, 120, 233, 52);
+		frmProducto.getContentPane().add(txtDesc);
+		
+		JLabel lblCdigo = new JLabel("Código:");
+		lblCdigo.setBounds(26, 24, 61, 16);
+		frmProducto.getContentPane().add(lblCdigo);
+		
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setBounds(26, 55, 61, 16);
+		frmProducto.getContentPane().add(lblNombre);
+		
+		JLabel lblPrecio = new JLabel("Precio:");
+		lblPrecio.setBounds(26, 87, 61, 16);
+		frmProducto.getContentPane().add(lblPrecio);
+		
+		JLabel lblDescripcin = new JLabel("Descripción:");
+		lblDescripcin.setBounds(26, 120, 85, 16);
+		frmProducto.getContentPane().add(lblDescripcin);
+		
+		if (Application.getInstancia().currentProd != null && !action.equals("new")) {
+			txtTitle.setText(Application.getInstancia().currentProd.getTitle());
+			txtDesc.setText(Application.getInstancia().currentProd.getDescription());
+			txtPrice.setText(Float.toString(Application.getInstancia().currentProd.getPrice()));
+			txtCode.setText(Application.getInstancia().currentProd.getProductCode());		
 		}
 		
-		JList list = new JList(listModel);
-		
-		
-		list.setBorder(UIManager.getBorder("EditorPane.border"));
-		list.setToolTipText("Producto");
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setBounds(25, 46, 213, 213);
-		list.setVisible(true);	
-		
-		frame.getContentPane().add(list);
-		
-		JButton btnConfirm = new JButton("Aceptar");
-		btnConfirm.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-				Application.getInstancia().currentProd = Application.getInstancia().getProductByName((String) list.getSelectedValue());
-				Application.getInstancia().notifyObservables();		
-				frame.dispose();
+		JButton btnNewButton = new JButton("Aceptar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {	
+				if (runValidations()) {
+					String title = txtTitle.getText();
+					String desc = txtDesc.getText();
+					String productCode = txtCode.getText();
+					float price = Float.parseFloat(txtPrice.getText());
+					if (action.equals("new")) {	
+						try {
+							Application.getInstancia().saveProduct(productCode, title, desc, price);
+							frmProducto.dispose();
+						} catch (PKDuplicadaException e1) {
+							JOptionPane.showMessageDialog(null,e1.getMessage(),"Error al guardar producto",JOptionPane.ERROR_MESSAGE);							
+						}	
+					} else {					
+						Application.getInstancia().currentProd.setTitle(title);
+						Application.getInstancia().currentProd.setDescription(desc);
+						Application.getInstancia().currentProd.setPrice(price);
+						Application.getInstancia().currentProd.setProductCode(productCode);
+						Application.getInstancia().currentProd.update();
+						Application.getInstancia().notifyObservables();
+						frmProducto.dispose();
+					}
+					
+				}
+				
 			}
 		});
-		btnConfirm.setBounds(23, 272, 117, 29);
-		frame.getContentPane().add(btnConfirm);
+		btnNewButton.setBounds(26, 184, 117, 29);
+		frmProducto.getContentPane().add(btnNewButton);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
+		JButton btnNewButton_1 = new JButton("Cancelar");
+		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				frmProducto.dispose();
 			}
 		});
-		btnCancelar.setBounds(136, 271, 117, 29);
-		frame.getContentPane().add(btnCancelar);
+		btnNewButton_1.setBounds(155, 184, 117, 29);
+		frmProducto.getContentPane().add(btnNewButton_1);
 	}
+
+	protected boolean runValidations() {
+		boolean correct = txtPrice.getText().matches("[-+]?[0-9]*\\.?[0-9]+");
+		if (!correct) {
+			JOptionPane.showMessageDialog(null,"Precio invalido, por favor coloque un valor numerico.","Producto",JOptionPane.WARNING_MESSAGE);
+		}
+		
+		return correct;
+	}
+
 }

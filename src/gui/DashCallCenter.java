@@ -73,6 +73,7 @@ public class DashCallCenter extends JFrame implements Observable {
 	private void initialize() {
 		Application.getInstancia().register(this);
 		frame = new JFrame();
+		frame.setTitle("Tablero Call Center");
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 782, 464);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -85,24 +86,20 @@ public class DashCallCenter extends JFrame implements Observable {
 		JMenu mnOptions = new JMenu("Opciones");
 		menuBar.add(mnOptions);
 		
-		JMenuItem mnClose = new JMenuItem("Cerrar sesión");
-		DashCallCenter that = this;
+		JMenuItem mnClose = new JMenuItem("Cerrar sesión");		
 		mnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login fLogin = new Login();
 				fLogin.setLocationRelativeTo(null);
-				fLogin.setVisible(true);
-				Application.getInstancia().remove(that);
-				frame.dispose();
+				fLogin.setVisible(true);						
 			}
 		});
 		mnOptions.add(mnClose);
 		
 		JMenuItem mnSalir = new JMenuItem("Salir");
 		mnSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Application.getInstancia().remove(that);
-				frame.dispose();
+			public void actionPerformed(ActionEvent e) {				
+				System.exit(1);
 			}
 		});
 		mnOptions.add(mnSalir);
@@ -217,7 +214,7 @@ public class DashCallCenter extends JFrame implements Observable {
 		JButton button = new JButton("+");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FProduct fProduct = new FProduct();
+				HProduct fProduct = new HProduct();
 				fProduct.frame.setLocationRelativeTo(null);
 				fProduct.frame.setVisible(true);
 			}
@@ -265,9 +262,10 @@ public class DashCallCenter extends JFrame implements Observable {
 					if (comboBox_2.getSelectedItem().toString().compareToIgnoreCase("Seleccionar") !=0){
 						tipoReclamos.add(comboBox_2.getSelectedItem().toString());
 					}
-					Application.getInstancia().saveTicket(tipoReclamos, clientId, txtAreaDesc.getText(), productCode, qty);
+					Application.getInstancia().saveTicket(tipoReclamos, clientId, txtAreaDesc.getText(), productCode, qty);					
 				}
 				this.cleanForm();
+				
 				
 			}
 

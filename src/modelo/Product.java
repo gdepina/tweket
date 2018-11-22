@@ -1,5 +1,7 @@
 package modelo;
 
+import dao.ProductDAO;
+import excepciones.PKDuplicadaException;
 import view.ProductView;
 
 public class Product {
@@ -53,12 +55,16 @@ public class Product {
 		this.price = price;
 	}
 
-	public void save() {
-
+	public void save() throws PKDuplicadaException {
+		ProductDAO.getInstancia().addProduct(this);
 	}
 
 	public void remove() {
+		ProductDAO.getInstancia().removeProduct(this);
+	}
 
+	public void update() {
+		ProductDAO.getInstancia().updateProduct(this);		
 	}
 
 }

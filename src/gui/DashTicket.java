@@ -25,9 +25,10 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import controller.Application;
+import observer.Observable;
 import view.TicketView;
 
-public class DashTicket {
+public class DashTicket implements Observable {
 
 	JFrame frame;	
 	private JTable table;
@@ -62,17 +63,20 @@ public class DashTicket {
 	
 	public DashTicket(String[] type) {
 		this.type = type;
-		initialize();
+		initialize();		
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Application.getInstancia().register(this);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 803, 679);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);	
+		frame.getContentPane().setLayout(null);
+		String dashTitle = "Tablero de "+type[0];
+		frame.setTitle(dashTitle);
 		
 		
 		
@@ -194,8 +198,7 @@ public class DashTicket {
 			public void actionPerformed(ActionEvent e) {
 				Login fLogin = new Login();
 				fLogin.setLocationRelativeTo(null);
-				fLogin.setVisible(true);
-				frame.dispose();
+				fLogin.setVisible(true);				
 			}
 		});
 		mnOpciones.add(mntmCerrarSesin);
@@ -281,5 +284,11 @@ public class DashTicket {
 		idClmn.setMaxWidth(0);
 		idClmn.setMinWidth(0);
 		idClmn.setPreferredWidth(0);
+	}
+
+	@Override
+	public void update() {
+		this.updateTable();
+		
 	}
 }

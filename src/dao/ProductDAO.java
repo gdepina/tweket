@@ -12,7 +12,9 @@ import java.util.Calendar;
 import excepciones.AccesoException;
 import excepciones.ConexionException;
 import excepciones.NoFreeConnectionException;
+import excepciones.PKDuplicadaException;
 import modelo.Product;
+import modelo.Ticket;
 import persistence.ConnectionPool;
 
 public class ProductDAO extends Mapper {
@@ -97,6 +99,54 @@ public class ProductDAO extends Mapper {
 			e.printStackTrace();
 		}
 		return pro;
+	}
+	
+	
+    public void addProduct(Product prod) throws PKDuplicadaException {
+
+        try {
+            Connection con = ConnectionPool.getInstancia().getConexion();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Product(product_code, description, title, price) values(?,?,?,?)");
+            ps.setString(1, prod.getProductCode());
+            ps.setString(2, prod.getDescription());
+            ps.setString(3, prod.getTitle());
+            ps.setFloat(4, prod.getPrice());            
+            ps.execute();
+            ConnectionPool.getInstancia().returnConexion(con);
+        } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
+        	e.printStackTrace();        	
+        	throw new PKDuplicadaException("Ocurrio un error, el id ingresado ya existe");           
+        }
+    }
+
+	public void removeProduct(Product prod) {
+        try {
+            Connection con = ConnectionPool.getInstancia().getConexion();
+            PreparedStatement ps = con.prepareStatement("DELETE " + super.getDatabase() + ".dbo.Product WHERE product_code=?");
+            ps.setString(1, prod.getProductCode());                        
+            ps.execute();
+            ConnectionPool.getInstancia().returnConexion(con);
+        } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
+            e.printStackTrace();
+        }
+		
+	}
+
+	public void updateProduct(Product prod) {
+        try {
+            Connection con = ConnectionPool.getInstancia().getConexion();
+            PreparedStatement ps = con.prepareStatement("UPDATE " + super.getDatabase() + ".dbo.Product SET product_code=?, description=?, title=?, price=? WHERE product_code=?");
+            ps.setString(1, prod.getProductCode());
+            ps.setString(2, prod.getDescription());
+            ps.setString(3, prod.getTitle());
+            ps.setFloat(4, prod.getPrice());
+            ps.setString(5, prod.getProductCode());
+            ps.execute();
+            ConnectionPool.getInstancia().returnConexion(con);
+        } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
+            e.printStackTrace();
+        }
+		
 	}
 
 }

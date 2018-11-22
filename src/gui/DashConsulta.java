@@ -19,8 +19,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
 import controller.Application;
+import observer.Observable;
 
-public class DashConsulta {
+public class DashConsulta implements Observable {
 
 	JFrame frame;
 	private JTable table;
@@ -54,6 +55,7 @@ public class DashConsulta {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		Application.getInstancia().register(this);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 795, 717);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,8 +71,7 @@ public class DashConsulta {
 			public void actionPerformed(ActionEvent e) {
 				Login fLogin = new Login();
 				fLogin.setLocationRelativeTo(null);
-				fLogin.setVisible(true);
-				frame.dispose();
+				fLogin.setVisible(true);				
 			}
 		});
 		mnNewMenu.add(mntmCerrarSesin);
@@ -178,5 +179,12 @@ public class DashConsulta {
 		frame.getContentPane().add(separator_3);
 		
 
+	}
+
+	@Override
+	public void update() {
+		table.setModel(Application.getInstancia().getTicketRankLogs());
+		table_1.setModel(Application.getInstancia().getTicketRankByClients());
+		table_2.setModel(Application.getInstancia().getAvgResponseTime());
 	}
 }

@@ -11,6 +11,7 @@ import dao.ConsultaDAO;
 import dao.ProductDAO;
 import dao.TicketDAO;
 import dao.UserDAO;
+import excepciones.PKDuplicadaException;
 import modelo.*;
 import observer.Observer;
 import view.ClientView;
@@ -83,6 +84,11 @@ public class Application extends Observer {
 		}
 		return clientesView;
 	}
+	
+	public void saveProduct(String productCode, String title, String desc,float price) throws PKDuplicadaException {	
+		new Product(productCode,title,desc,price).save();
+		this.notifyObservables();
+	}
 
 	public Product getProduct(String code) {
 		Product res = null;
@@ -106,7 +112,8 @@ public class Application extends Observer {
 		}
 		if (res == null)
 			res = ProductDAO.getInstancia().getProductByName(name);
-
+		
+		this.currentProd = res;
 		return res;
 	}
 
@@ -190,12 +197,14 @@ public class Application extends Observer {
 		}
 
 		tickets.add(tck);
+		this.notifyObservables();
 	}
 	
 
 	public void changeTicketState(int state, int ticketNumber, String log) {	
 		this.getTicket(ticketNumber).changeStatus(state);
-		new TicketHistorical(log, ticketNumber, currentUser.getId()).addLog();	
+		new TicketHistorical(log, ticketNumber, currentUser.getId()).addLog();
+		this.notifyObservables();
 	}
 	
 	public DefaultTableModel getTicketRankLogs() {

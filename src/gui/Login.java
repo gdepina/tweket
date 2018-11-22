@@ -144,9 +144,9 @@ public class Login extends JFrame {
 	private void getDashByType(String type) {
 		switch(type) {
 			case "admin" :
-//				DashAdmin fAdm = new DashAdmin();
-//				fAdm.setLocationRelativeTo(null);
-//				fAdm.setVisible(true);
+				DashAdmin fAdm = new DashAdmin();
+				fAdm.frame.setLocationRelativeTo(null);
+				fAdm.frame.setVisible(true);
 				break; // optional
 			case "Zona Entrega" :			
 				DashTicket fZone = new DashTicket(new String[] {"Zona Entrega"});
