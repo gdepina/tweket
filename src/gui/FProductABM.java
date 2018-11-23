@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import controller.Application;
+import excepciones.FKException;
 import observer.Observable;
 import view.ProductView;
 
@@ -102,7 +103,11 @@ public class FProductABM  implements Observable {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (Application.getInstancia().currentProd != null) {
-					Application.getInstancia().currentProd.remove();
+					try {
+						Application.getInstancia().currentProd.remove();
+					} catch (FKException e1) {
+						JOptionPane.showMessageDialog(null,e1.getMessage(),"Error al eliminar producto",JOptionPane.ERROR_MESSAGE);						
+					}
 					Application.getInstancia().notifyObservables();
 				} else {
 					JOptionPane.showMessageDialog(null,"Seleccione un producto para eliminarlo","Producto",JOptionPane.INFORMATION_MESSAGE);

@@ -1,6 +1,7 @@
 package modelo;
 
 import dao.ProductDAO;
+import excepciones.FKException;
 import excepciones.PKDuplicadaException;
 import view.ProductView;
 
@@ -59,7 +60,7 @@ public class Product {
 		ProductDAO.getInstancia().addProduct(this);
 	}
 
-	public void remove() {
+	public void remove() throws FKException {
 		ProductDAO.getInstancia().removeProduct(this);
 	}
 

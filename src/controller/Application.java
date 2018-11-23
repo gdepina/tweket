@@ -124,6 +124,20 @@ public class Application extends Observer {
 		}
 		return productViews;
 	}
+	
+	public ArrayList<ZoneLocation> getZones() {
+		return ClientDAO.getInstancia().getZones();
+	}
+	
+	public ZoneLocation getZoneByName(String zoneName) {
+		return ClientDAO.getInstancia().getZoneByName(zoneName);
+	}
+	
+	public void saveClient(String name, String dni, String address,String phone, String mail, String zoneName) throws PKDuplicadaException {
+		
+		new Client(name,dni,address,phone, mail, this.getZoneByName(zoneName)).save();
+		this.notifyObservables();
+	}
 
 	public Client getClient(int clientId) {
 		Client res = null;
@@ -139,7 +153,9 @@ public class Application extends Observer {
 	}
 	
 	public Client getClientByName(String name) {
-		return ClientDAO.getInstancia().getClientByName(name);
+		Client cli = ClientDAO.getInstancia().getClientByName(name);
+		this.currentCli = cli;
+		return cli;
 	}
 
 	public User getUser(String userName) {

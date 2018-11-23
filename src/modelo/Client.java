@@ -1,5 +1,9 @@
 package modelo;
 
+import dao.ClientDAO;
+import dao.ProductDAO;
+import excepciones.FKException;
+import excepciones.PKDuplicadaException;
 import view.ClientView;
 
 public class Client {
@@ -16,6 +20,15 @@ public class Client {
 		this.id = id;
 		this.name = name;
 		this.homeAddress = homeAddress;
+		this.zone = zone;
+		this.phone = phone;
+		this.mail = mail;
+		this.dni = dni;
+	}
+
+	public Client(String name, String dni, String address, String phone, String mail, ZoneLocation zone) {
+		this.name = name;
+		this.homeAddress = address;
 		this.zone = zone;
 		this.phone = phone;
 		this.mail = mail;
@@ -83,12 +96,16 @@ public class Client {
 	}
 
 
-	public void addClient() {
-
+	public void save() throws PKDuplicadaException {
+		ClientDAO.getInstancia().addClient(this);
 	}
 
-	public void removeClient() {
-
+	public void remove() throws FKException {
+		ClientDAO.getInstancia().removeClient(this);
+	}
+	
+	public void update() {
+		ClientDAO.getInstancia().updateClient(this);
 	}
 
 }

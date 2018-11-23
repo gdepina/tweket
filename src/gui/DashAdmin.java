@@ -73,6 +73,13 @@ public class DashAdmin {
 		mnNewMenu.add(mntmNewMenuItem);
 		
 		JMenuItem mntmClientes = new JMenuItem("Clientes");
+		mntmClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FClientABM fClient = new FClientABM();
+				fClient.frmClientes.setLocationRelativeTo(null);
+				fClient.frmClientes.setVisible(true);
+			}
+		});
 		mnNewMenu.add(mntmClientes);
 		
 		JMenuItem mntmRoles = new JMenuItem("Roles");

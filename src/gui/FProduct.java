@@ -80,11 +80,11 @@ public class FProduct {
 		txtDesc.setBounds(119, 120, 233, 52);
 		frmProducto.getContentPane().add(txtDesc);
 		
-		JLabel lblCdigo = new JLabel("Código:");
+		JLabel lblCdigo = new JLabel("Código*:");
 		lblCdigo.setBounds(26, 24, 61, 16);
 		frmProducto.getContentPane().add(lblCdigo);
 		
-		JLabel lblNombre = new JLabel("Nombre:");
+		JLabel lblNombre = new JLabel("Nombre*:");
 		lblNombre.setBounds(26, 55, 61, 16);
 		frmProducto.getContentPane().add(lblNombre);
 		
@@ -145,13 +145,22 @@ public class FProduct {
 		frmProducto.getContentPane().add(btnNewButton_1);
 	}
 
-	protected boolean runValidations() {
-		boolean correct = txtPrice.getText().matches("[-+]?[0-9]*\\.?[0-9]+");
-		if (!correct) {
+	protected boolean runValidations() {		
+		if (!txtPrice.getText().matches("[-+]?[0-9]*\\.?[0-9]+")) {		
 			JOptionPane.showMessageDialog(null,"Precio invalido, por favor coloque un valor numerico.","Producto",JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+		if (txtCode.getText().isEmpty()) {			
+			JOptionPane.showMessageDialog(null,"El código de producto es requerido.","Producto",JOptionPane.WARNING_MESSAGE);
+			return false;
 		}
 		
-		return correct;
+		if (txtTitle.getText().isEmpty()) {			
+			JOptionPane.showMessageDialog(null,"El nombre de producto es requerido.","Producto",JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+	
+		return true;
 	}
 
 }

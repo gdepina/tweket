@@ -225,7 +225,7 @@ public class DashCallCenter extends JFrame implements Observable {
 		JButton button_1 = new JButton("+");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FClient fClient = new FClient();
+				HClient fClient = new HClient();
 				fClient.frame.setLocationRelativeTo(null);
 				fClient.frame.setVisible(true);
 			}

@@ -11,6 +11,7 @@ import java.util.Calendar;
 
 import excepciones.AccesoException;
 import excepciones.ConexionException;
+import excepciones.FKException;
 import excepciones.NoFreeConnectionException;
 import excepciones.PKDuplicadaException;
 import modelo.Product;
@@ -119,7 +120,7 @@ public class ProductDAO extends Mapper {
         }
     }
 
-	public void removeProduct(Product prod) {
+	public void removeProduct(Product prod) throws FKException {
         try {
             Connection con = ConnectionPool.getInstancia().getConexion();
             PreparedStatement ps = con.prepareStatement("DELETE " + super.getDatabase() + ".dbo.Product WHERE product_code=?");
@@ -128,6 +129,7 @@ public class ProductDAO extends Mapper {
             ConnectionPool.getInstancia().returnConexion(con);
         } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
             e.printStackTrace();
+            throw new FKException("El producto no puede ser eliminar porque es parte de un reclamo");
         }
 		
 	}
