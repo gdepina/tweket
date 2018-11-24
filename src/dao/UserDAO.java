@@ -13,7 +13,10 @@ import java.util.List;
 import controller.Application;
 import excepciones.AccesoException;
 import excepciones.ConexionException;
+import excepciones.FKException;
 import excepciones.NoFreeConnectionException;
+import excepciones.PKDuplicadaException;
+import modelo.Product;
 import modelo.Role;
 import modelo.User;
 import persistence.ConnectionPool;
@@ -56,9 +59,9 @@ public class UserDAO extends Mapper {
 		try {
 			Connection con = ConnectionPool.getInstancia().getConexion();
 			PreparedStatement ps = con
-					.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.rol_user(userId, type) values(?,?)");
+					.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.role_user(user_id, role_id) values(?,?)");
 			ps.setInt(1, user.getId());
-			ps.setString(2, role.getType());
+			ps.setInt(2, role.getId());
 			ps.execute();
 			ConnectionPool.getInstancia().returnConexion(con);
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
@@ -66,14 +69,13 @@ public class UserDAO extends Mapper {
 		}
 	}
 
-	// ya esta probado, anda
 	public void removeRolByUser(Role rol, User user) {
 		try {
 			Connection con = ConnectionPool.getInstancia().getConexion();
 			PreparedStatement ps = con
-					.prepareStatement("delete from " + super.getDatabase() + ".dbo.rol_user where userId=? and type=?");
+					.prepareStatement("delete from " + super.getDatabase() + ".dbo.role_user where user_id=? and role_id=?");
 			ps.setInt(1, user.getId());
-			ps.setString(2, rol.getType());
+			ps.setInt(2, rol.getId());
 			ps.execute();
 			ConnectionPool.getInstancia().returnConexion(con);
 		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
@@ -136,6 +138,50 @@ public class UserDAO extends Mapper {
 			e.printStackTrace();
 		}
 		return roles;
+	}
+	
+    public void addUser(User user) throws PKDuplicadaException {
+
+        try {
+            Connection con = ConnectionPool.getInstancia().getConexion();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Users(user_name, pass) values(?,?)");
+            ps.setString(1, user.getUserName());
+            ps.setString(2, user.getPass());                       
+            ps.execute();
+            ConnectionPool.getInstancia().returnConexion(con);
+        } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
+        	e.printStackTrace();        	
+        	throw new PKDuplicadaException("Ocurrio un error, el id ingresado ya existe");           
+        }
+    }
+
+	public void removeUser(User user) throws FKException {
+        try {
+            Connection con = ConnectionPool.getInstancia().getConexion();
+            PreparedStatement ps = con.prepareStatement("DELETE " + super.getDatabase() + ".dbo.USERS WHERE user_name=?");
+            ps.setString(1, user.getUserName());                        
+            ps.execute();
+            ConnectionPool.getInstancia().returnConexion(con);
+        } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
+            e.printStackTrace();
+            throw new FKException("El usuario no puede ser eliminado porque tiene roles asignados");
+        }
+		
+	}
+	
+	public void updateUser(User user) {
+        try {
+            Connection con = ConnectionPool.getInstancia().getConexion();
+            PreparedStatement ps = con.prepareStatement("UPDATE " + super.getDatabase() + ".dbo.Users SET user_name=?, pass=? WHERE id=?");
+            ps.setString(1, user.getUserName());
+            ps.setString(2, user.getPass());    
+            ps.setInt(3, user.getId());    
+            ps.execute();
+            ConnectionPool.getInstancia().returnConexion(con);
+        } catch (SQLException | ConexionException | AccesoException | NoFreeConnectionException e) {
+            e.printStackTrace();
+        }
+		
 	}
 
 }

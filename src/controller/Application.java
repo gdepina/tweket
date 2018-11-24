@@ -9,6 +9,7 @@ import javax.swing.table.TableModel;
 import dao.ClientDAO;
 import dao.ConsultaDAO;
 import dao.ProductDAO;
+import dao.RoleDAO;
 import dao.TicketDAO;
 import dao.UserDAO;
 import excepciones.PKDuplicadaException;
@@ -17,6 +18,7 @@ import observer.Observer;
 import view.ClientView;
 import view.ProductView;
 import view.TicketView;
+import view.UserView;
 
 public class Application extends Observer {
 	public List<Client> clients;
@@ -24,6 +26,7 @@ public class Application extends Observer {
 	public Product currentProd;
 	public Client currentCli;
 	public User currentUser;
+	public Role currentRole;
 	public List<User> users;
 	public List<Ticket> tickets;
 	public static Application instancia;
@@ -76,6 +79,7 @@ public class Application extends Observer {
 			res = TicketDAO.getInstancia().getTicket(ticketNumber);
 		return res;
 	}
+	
 
 	public ArrayList<ClientView> getClients() {
 		ArrayList<ClientView> clientesView = new ArrayList<ClientView>();
@@ -157,6 +161,22 @@ public class Application extends Observer {
 		this.currentCli = cli;
 		return cli;
 	}
+	
+	public Role getRoleByName(String type) {
+		Role role = RoleDAO.getInstancia().getRoleByName(type);
+		this.currentRole = role;
+		return role;
+	}
+	
+	
+	
+	public ArrayList<UserView> getUsers() {
+		ArrayList<UserView> userViews = new ArrayList<UserView>();
+		for (User usr : UserDAO.getInstancia().getUsers()) {
+			userViews.add(usr.toView());
+		}
+		return userViews;
+	}
 
 	public User getUser(String userName) {
 		User res = null;
@@ -169,7 +189,14 @@ public class Application extends Observer {
 			res = UserDAO.getInstancia().getUser(userName);
 			currentUser = res;
 		}
+		this.currentUser = res;
 		return res;
+	}
+	
+	public void saveUser(String name, String pass) throws PKDuplicadaException {
+		new User(name,pass).add();
+		this.notifyObservables();
+		
 	}
 
 	public boolean checkUser(String userId, String pass) {
@@ -237,6 +264,8 @@ public class Application extends Observer {
 	public DefaultTableModel getAvgResponseTime() {
 		return ConsultaDAO.getInstancia().getAvgResponseTime();
 	}
-	
-	
+
+	public List<Role> getAvailableRoles() {
+		return RoleDAO.getInstancia().getAvailableRoles(this.currentUser.getId());		
+	}
 }

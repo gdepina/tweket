@@ -82,7 +82,14 @@ public class DashAdmin {
 		});
 		mnNewMenu.add(mntmClientes);
 		
-		JMenuItem mntmRoles = new JMenuItem("Roles");
+		JMenuItem mntmRoles = new JMenuItem("Usuarios y roles");
+		mntmRoles.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FUserABM fUser = new FUserABM();
+				fUser.frame.setLocationRelativeTo(null);
+				fUser.frame.setVisible(true);
+			}
+		});
 		mnNewMenu.add(mntmRoles);
 		frame.getContentPane().setLayout(null);		
 		 

@@ -22,7 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class FProductABM  implements Observable {
+public class FProductABM implements Observable {
 
 	JFrame frmProductos;
 	JList list;

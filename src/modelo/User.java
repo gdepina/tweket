@@ -2,7 +2,12 @@ package modelo;
 
 import java.util.List;
 
+import dao.ClientDAO;
 import dao.UserDAO;
+import excepciones.FKException;
+import excepciones.PKDuplicadaException;
+import view.ClientView;
+import view.UserView;
 
 public class User {
 
@@ -22,6 +27,15 @@ public class User {
 	public User(int id, String userName) {
 		this.id = id;
 		this.userName = userName;
+	}
+	
+	public User(String name, String pass) {
+		this.userName = name;
+		this.pass = pass;
+	}
+
+	public UserView toView() {
+		return new UserView(this.userName, this.id);
 	}
 
 	public int getId() {
@@ -55,14 +69,34 @@ public class User {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
+	public void addRole(Role e) {
+		roles.add(e);
+	}
+	
+	public void removeRol(Role e) {
+		roles.remove(e);
+	}
+	
+	public void saveRole(Role role) {		
+		this.addRole(role);
+		UserDAO.getInstancia().saveRoleByUser(role, this);
+	}
+	
+	public void removeRole(Role role) {
+		UserDAO.getInstancia().removeRolByUser(role, this);
+	}
+	
+	
+	public void add() throws PKDuplicadaException {
+		UserDAO.getInstancia().addUser(this);
+	}
 
-	// METODOS
-	
-	public void changePass(String pass) {
-		
+	public void remove() throws FKException {
+		UserDAO.getInstancia().removeUser(this);		
 	}
 	
-	public void addUser() {
-		
+	public void update() {
+		UserDAO.getInstancia().updateUser(this);		
 	}
+
 }
