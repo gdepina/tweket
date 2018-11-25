@@ -53,7 +53,7 @@ public class FUserABM implements Observable {
 		Application.getInstancia().register(this);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 351, 285);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JButton btnNuevo = new JButton("Nuevo");

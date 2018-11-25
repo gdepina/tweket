@@ -66,7 +66,7 @@ public class DashConsulta implements Observable {
 		JMenu mnNewMenu = new JMenu("Opciones");
 		menuBar.add(mnNewMenu);
 		
-		JMenuItem mntmCerrarSesin = new JMenuItem("Cerrar sesión");
+		JMenuItem mntmCerrarSesin = new JMenuItem("Cambiar de usuario");
 		mntmCerrarSesin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login fLogin = new Login();

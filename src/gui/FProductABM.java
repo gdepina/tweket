@@ -58,7 +58,7 @@ public class FProductABM implements Observable {
 		frmProductos = new JFrame();
 		frmProductos.setTitle("Productos");
 		frmProductos.setBounds(100, 100, 321, 264);
-		frmProductos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmProductos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmProductos.getContentPane().setLayout(null);
 		
 	

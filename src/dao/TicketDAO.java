@@ -3,10 +3,14 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Vector;
+
+import javax.swing.table.DefaultTableModel;
 
 import controller.Application;
 import excepciones.AccesoException;
@@ -196,16 +200,17 @@ public class TicketDAO extends Mapper {
                 }
             }
 
-            PreparedStatement in = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket(type, description, creation_date,client_id, status_id, product_code, composite_id, quantity) values(?,?,?,?,?,?,?,?)");
+            PreparedStatement in = con.prepareStatement("INSERT INTO " + super.getDatabase() + ".dbo.Ticket(type, description, creation_date,client_id, status_id, product_code, composite_id, quantity, bill_id) values(?,?,?,?,?,?,?,?,?)");
             for (Ticket tck : comp.getTickets()) {
                 in.setString(1, tck.getType());
-                in.setString(2, comp.getDescription());
+                in.setString(2, tck.getDescription());
                 in.setDate(3, new java.sql.Date(Calendar.getInstance().getTime().getTime()));
                 in.setInt(4, comp.getClient().getId());
                 in.setInt(5, 1);
-                in.setString(6, comp.getProduct().getProductCode());
+                in.setString(6, tck.getProduct().getProductCode());
                 in.setInt(7, identity);
-                in.setInt(8, comp.getQuantity());
+                in.setInt(8, tck.getQuantity());
+                in.setString(9, tck.getBillId());
                 in.execute();
             }
 
@@ -282,5 +287,54 @@ public class TicketDAO extends Mapper {
 		    	ps1.execute();
 		    }
 		}
+	}
+	
+	public DefaultTableModel getTicketHistorical (int ticketNumber) {	
+		try {
+			String statement = "SELECT log 'Acción realizada', date 'Fecha de acción', user_name 'Usuario' "
+					+ "from " + super.getDatabase() + ".dbo.ticket_historical t "
+					+ "INNER JOIN " + super.getDatabase() + ".dbo.Users u on t.user_id = u.id "
+					+ "where ticket_number = ?";		
+			
+			Connection con = ConnectionPool.getInstancia().getConexion();
+			PreparedStatement ps = con
+					.prepareStatement(statement);
+			
+			ps.setInt(1, ticketNumber);
+			
+			DefaultTableModel resultModel = buildTableModel(ps.executeQuery());
+			ConnectionPool.getInstancia().returnConexion(con);
+			return resultModel;
+			
+		} catch (SQLException | NoFreeConnectionException | ConexionException | AccesoException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static DefaultTableModel buildTableModel(ResultSet rs)
+	        throws SQLException {
+
+	    ResultSetMetaData metaData = rs.getMetaData();
+
+	    // names of columns
+	    Vector<String> columnNames = new Vector<String>();
+	    int columnCount = metaData.getColumnCount();
+	    for (int column = 1; column <= columnCount; column++) {
+	        columnNames.add(metaData.getColumnName(column));
+	    }
+
+	    // data of the table
+	    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+	    while (rs.next()) {
+	        Vector<Object> vector = new Vector<Object>();
+	        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+	            vector.add(rs.getObject(columnIndex));
+	        }
+	        data.add(vector);
+	    }
+
+	    return new DefaultTableModel(data, columnNames);
+
 	}
 }

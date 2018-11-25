@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,10 +18,21 @@ import javax.swing.JTextField;
 
 import controller.Application;
 import observer.Observable;
+import view.TicketView;
+
 import javax.swing.JSeparator;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import java.awt.Font;
 
 public class DashCallCenter extends JFrame implements Observable {
 
@@ -37,11 +49,11 @@ public class DashCallCenter extends JFrame implements Observable {
 	private JTextField txtMail;
 	private JTextField txtTel;
 	private JComboBox cbTicket1;
-	private JComboBox cbTicket2;
-	private JComboBox comboBox;
-	private JComboBox comboBox_1;
-	private JComboBox comboBox_2;
 	private JTextField txtCantidad;
+	private JTextField txtBillId;
+	private JTable table;
+	JButton button_1;
+	JRadioButton rdbtnCompuesto;
 
 	/**
 	 * Launch the application.
@@ -75,7 +87,7 @@ public class DashCallCenter extends JFrame implements Observable {
 		frame = new JFrame();
 		frame.setTitle("Tablero Call Center");
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 782, 464);
+		frame.setBounds(100, 100, 782, 511);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -86,7 +98,7 @@ public class DashCallCenter extends JFrame implements Observable {
 		JMenu mnOptions = new JMenu("Opciones");
 		menuBar.add(mnOptions);
 		
-		JMenuItem mnClose = new JMenuItem("Cerrar sesión");		
+		JMenuItem mnClose = new JMenuItem("Cambiar de usuario");		
 		mnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login fLogin = new Login();
@@ -106,11 +118,11 @@ public class DashCallCenter extends JFrame implements Observable {
 		
 		txtCantidad = new JTextField();
 		txtCantidad.setColumns(10);
-		txtCantidad.setBounds(163, 233, 172, 26);		
+		txtCantidad.setBounds(436, 271, 165, 26);		
 		frame.getContentPane().add(txtCantidad);
 		
 		JLabel lblCantidad = new JLabel("Cantidad:");
-		lblCantidad.setBounds(30, 238, 61, 16);
+		lblCantidad.setBounds(363, 276, 61, 16);
 		frame.getContentPane().add(lblCantidad);		
 		
 		JRadioButton rbSimple = new JRadioButton("Simple");
@@ -118,7 +130,7 @@ public class DashCallCenter extends JFrame implements Observable {
 		rbSimple.setBounds(30, 34, 141, 23);
 		frame.getContentPane().add(rbSimple);
 		
-		JRadioButton rdbtnCompuesto = new JRadioButton("Compuesto");
+		rdbtnCompuesto = new JRadioButton("Compuesto");
 		
 		rdbtnCompuesto.setBounds(163, 34, 141, 23);
 		frame.getContentPane().add(rdbtnCompuesto);
@@ -126,6 +138,7 @@ public class DashCallCenter extends JFrame implements Observable {
 		String[] comboModel = new String[] { "Seleccionar","Cantidad", "Facturacion", "Faltante", "Producto", "Zona Entrega"};
 		
 		cbTicket1 = new JComboBox(comboModel);
+
 		cbTicket1.setBounds(163, 69, 172, 27);
 		frame.getContentPane().add(cbTicket1);
 		
@@ -133,68 +146,16 @@ public class DashCallCenter extends JFrame implements Observable {
 		lblTipoDeReclamo.setBounds(30, 73, 105, 16);
 		frame.getContentPane().add(lblTipoDeReclamo);
 		
-		cbTicket2 = new JComboBox(comboModel);
-		cbTicket2.setBounds(163, 104, 172, 27);
-		frame.getContentPane().add(cbTicket2);
-		
-		JLabel label = new JLabel("Tipo de reclamo:");
-		label.setBounds(30, 108, 105, 16);
-		frame.getContentPane().add(label);
-		
-		comboBox = new JComboBox(comboModel);
-		comboBox.setBounds(163, 137, 172, 27);
-		frame.getContentPane().add(comboBox);
-		
-		comboBox_1 = new JComboBox(comboModel);
-		comboBox_1.setBounds(163, 170, 172, 27);
-		frame.getContentPane().add(comboBox_1);
-		
-		comboBox_2 = new JComboBox(comboModel);
-		comboBox_2.setBounds(163, 202, 172, 27);
-		frame.getContentPane().add(comboBox_2);
-		
-		rdbtnCompuesto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {			
-					rbSimple.setSelected(false);		
-					cbTicket1.setEnabled(true);
-					cbTicket2.setEnabled(true);
-					comboBox.setEnabled(true);
-					comboBox_1.setEnabled(true);
-					comboBox_2.setEnabled(true);
-			}
-		});
-		
-		rbSimple.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rdbtnCompuesto.setSelected(false);		
-				cbTicket1.setEnabled(true);
-				cbTicket2.setEnabled(false);
-				comboBox.setEnabled(false);
-				comboBox_1.setEnabled(false);
-				comboBox_2.setEnabled(false);
-			}
-		});
-		
-		JLabel label_1 = new JLabel("Tipo de reclamo:");
-		label_1.setBounds(30, 141, 105, 16);
-		frame.getContentPane().add(label_1);
-		
-		JLabel label_2 = new JLabel("Tipo de reclamo:");
-		label_2.setBounds(30, 174, 105, 16);
-		frame.getContentPane().add(label_2);
-		
-		JLabel label_3 = new JLabel("Tipo de reclamo:");
-		label_3.setBounds(30, 206, 105, 16);
-		frame.getContentPane().add(label_3);
+
 		
 		JTextArea txtAreaDesc = new JTextArea();
 		txtAreaDesc.setLineWrap(true);
 		txtAreaDesc.setWrapStyleWord(true);
-		txtAreaDesc.setBounds(30, 313, 727, 71);
+		txtAreaDesc.setBounds(30, 358, 727, 71);
 		frame.getContentPane().add(txtAreaDesc);
 		
 		JLabel lblInformacinAdicional = new JLabel("Descripción e Información adicional:");
-		lblInformacinAdicional.setBounds(30, 285, 305, 16);
+		lblInformacinAdicional.setBounds(30, 330, 305, 16);
 		frame.getContentPane().add(lblInformacinAdicional);
 		
 		JLabel lblNewLabel = new JLabel("Producto:");
@@ -222,7 +183,7 @@ public class DashCallCenter extends JFrame implements Observable {
 		button.setBounds(597, 68, 40, 28);
 		frame.getContentPane().add(button);
 		
-		JButton button_1 = new JButton("+");
+		button_1 = new JButton("+");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HClient fClient = new HClient();
@@ -240,29 +201,14 @@ public class DashCallCenter extends JFrame implements Observable {
 				int clientId = Application.getInstancia().currentCli.getId();
 				String productCode = Application.getInstancia().currentProd.getProductCode();
 				int qty = txtCantidad.getText().equals("") ? 0 : Integer.parseInt(txtCantidad.getText());
+				String billId = txtBillId.getText();
 				
 				if (rbSimple.isSelected()) {
 					tipoReclamos.add(cbTicket1.getSelectedItem().toString());							
-					Application.getInstancia().saveTicket(tipoReclamos,clientId, txtAreaDesc.getText(), productCode, qty);
-					
+					Application.getInstancia().saveTicket(tipoReclamos,clientId, txtAreaDesc.getText(), productCode, qty, billId);					
 
 				} else if (rdbtnCompuesto.isSelected()){
-					if (cbTicket1.getSelectedItem().toString().compareToIgnoreCase("Seleccionar") !=0 ){
-						tipoReclamos.add(cbTicket1.getSelectedItem().toString());
-					} 
-					if (cbTicket2.getSelectedItem().toString().compareToIgnoreCase("Seleccionar") !=0){
-						tipoReclamos.add(cbTicket2.getSelectedItem().toString());
-					} 
-					if (comboBox.getSelectedItem().toString().compareToIgnoreCase("Seleccionar") !=0){
-						tipoReclamos.add(comboBox.getSelectedItem().toString());
-					} 
-					if (comboBox_1.getSelectedItem().toString().compareToIgnoreCase("Seleccionar") != 0){
-						tipoReclamos.add(comboBox_1.getSelectedItem().toString());
-					} 
-					if (comboBox_2.getSelectedItem().toString().compareToIgnoreCase("Seleccionar") !=0){
-						tipoReclamos.add(comboBox_2.getSelectedItem().toString());
-					}
-					Application.getInstancia().saveTicket(tipoReclamos, clientId, txtAreaDesc.getText(), productCode, qty);					
+					Application.getInstancia().saveTicketComposite(clientId);					
 				}
 				this.cleanForm();
 				
@@ -278,18 +224,18 @@ public class DashCallCenter extends JFrame implements Observable {
 				txtMail.setText("");
 				txtTel.setText("");
 				cbTicket1.setSelectedIndex(0);
-				cbTicket2.setSelectedIndex(0);
-				comboBox.setSelectedIndex(0);
-				comboBox_1.setSelectedIndex(0);
-				comboBox_2.setSelectedIndex(0);
 				txtAreaDesc.setText("");
 				txtCantidad.setText("");
+				txtBillId.setText("");				
 				Application.getInstancia().currentCli = null;
 				Application.getInstancia().currentProd = null;
+				Application.getInstancia().tickets = null;
+				table.setModel(new DefaultTableModel());
+				
 				
 			}
 		});
-		btnGuardar.setBounds(30, 396, 117, 29);
+		btnGuardar.setBounds(30, 441, 117, 29);
 		frame.getContentPane().add(btnGuardar);
 		
 		txtProductTitle = new JTextField();
@@ -347,9 +293,168 @@ public class DashCallCenter extends JFrame implements Observable {
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBackground(Color.LIGHT_GRAY);
-		separator.setBounds(336, 34, 12, 267);
+		separator.setBounds(342, 34, 20, 312);
 		frame.getContentPane().add(separator);
 		
+		txtBillId = new JTextField();
+		txtBillId.setBounds(436, 271, 165, 26);
+		frame.getContentPane().add(txtBillId);
+		txtBillId.setColumns(10);
+		
+		JLabel lblFactura = new JLabel("Factura #:");
+		lblFactura.setBounds(363, 276, 68, 16);
+		frame.getContentPane().add(lblFactura);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(30, 101, 305, 183);
+		frame.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
+		JButton btnAgregarReclamo = new JButton("Agregar");
+		btnAgregarReclamo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (!txtClientTitle.getText().isEmpty()) {
+					FTicket fTicket = new FTicket();
+					fTicket.frame.setLocationRelativeTo(null);
+					fTicket.frame.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null,"Seleccione un cliente para agregar un nuevo reclamo","Reclamo",JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnAgregarReclamo.setBounds(30, 289, 117, 29);
+		frame.getContentPane().add(btnAgregarReclamo);
+		
+		JButton btnQuitar = new JButton("Quitar");
+		btnQuitar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (!table.getSelectionModel().isSelectionEmpty()) {
+					String type = table.getValueAt(table.getSelectedRow(), 0).toString();
+					Application.getInstancia().removeTicket(type);		
+				} else {
+					JOptionPane.showMessageDialog(null,"Debe seleccionar un reclamo para quitarlo","Reclamo",JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+				if (table.getRowCount() == 0) {
+					button_1.setEnabled(true);
+				}
+			}
+		});
+		btnQuitar.setBounds(218, 289, 117, 29);
+		frame.getContentPane().add(btnQuitar);
+		
+		JLabel lblNewLabel_2 = new JLabel("Reclamos asociados:");
+		lblNewLabel_2.setFont(new Font("Lucida Grande", Font.BOLD, 14));
+		lblNewLabel_2.setBounds(30, 73, 219, 16);
+		frame.getContentPane().add(lblNewLabel_2);
+					
+		scrollPane.setVisible(false);					
+		lblNewLabel_2.setVisible(false);
+		btnAgregarReclamo.setVisible(false);
+		btnQuitar.setVisible(false);
+		lblFactura.setVisible(false);
+		txtBillId.setVisible(false);
+		lblCantidad.setVisible(false);
+		txtCantidad.setVisible(false);
+		
+		
+		rdbtnCompuesto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {			
+					rbSimple.setSelected(false);	
+					scrollPane.setVisible(true);
+					cbTicket1.setEnabled(true);
+					lblTipoDeReclamo.setVisible(false);
+					cbTicket1.setVisible(false);
+					lblNewLabel_2.setVisible(true);
+					btnAgregarReclamo.setVisible(true);
+					btnQuitar.setVisible(true);
+					txtProduct.setVisible(false);
+					lblNewLabel.setVisible(false);
+					txtProductTitle.setVisible(false);
+					button.setVisible(false);
+					lblInformacinAdicional.setVisible(false);
+					txtAreaDesc.setVisible(false);
+					
+					lblCantidad.setVisible(false);
+					lblFactura.setVisible(false);
+					txtCantidad.setVisible(false);
+					txtBillId.setVisible(false);
+			}
+		});
+		
+		rbSimple.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rdbtnCompuesto.setSelected(false);		
+				scrollPane.setVisible(false);
+				cbTicket1.setEnabled(true);
+				lblTipoDeReclamo.setVisible(true);
+				cbTicket1.setVisible(true);
+				lblNewLabel_2.setVisible(false);
+				btnAgregarReclamo.setVisible(false);
+				btnQuitar.setVisible(false);
+				
+				txtProduct.setVisible(true);
+				lblNewLabel.setVisible(true);
+				txtProductTitle.setVisible(true);
+				button.setVisible(true);
+				lblInformacinAdicional.setVisible(true);
+				txtAreaDesc.setVisible(true);
+			}
+		});
+		
+		
+		rbSimple.setSelected(true);	
+		
+		cbTicket1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lblFactura.setVisible(false);
+				txtBillId.setVisible(false);
+				lblCantidad.setVisible(false);
+				txtCantidad.setVisible(false);
+				
+				if (cbTicket1.getSelectedItem().toString().equals("Facturacion")) {
+					
+					lblFactura.setVisible(true);
+					txtBillId.setVisible(true);
+				}
+				
+				if (cbTicket1.getSelectedItem().toString().equals("Faltante") || cbTicket1.getSelectedItem().toString().equals("Cantidad")) {
+					lblCantidad.setVisible(true);
+					txtCantidad.setVisible(true);
+				}				
+			}
+		});		
+			
+	}
+	
+	private void updateTable() {
+		List<String> columns = new ArrayList<String>();
+        List<String[]> values = new ArrayList<String[]>();
+                
+        columns.add("Tipo");                            
+        columns.add("Producto");                      
+		
+        for (TicketView tck : Application.getInstancia().getTickets()) {
+        	values.add(new String[] {tck.getType(), tck.getProduct().getTitle()});
+        }
+        
+        TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray()) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public boolean isCellEditable(int row, int column) {
+               return false;
+            }
+        };
+		       
+		table.setModel(tableModel);
 	}
 	
 
@@ -365,6 +470,11 @@ public class DashCallCenter extends JFrame implements Observable {
 			txtAddress.setText(Application.getInstancia().currentCli.getHomeAddress());
 			txtMail.setText(Application.getInstancia().currentCli.getMail());
 			txtTel.setText(Application.getInstancia().currentCli.getPhone());
+		}
+		
+		if (Application.getInstancia().tickets != null && rdbtnCompuesto.isSelected()) {
+			button_1.setEnabled(false);
+			updateTable();		
 		}
 		
 	}

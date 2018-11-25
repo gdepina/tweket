@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -28,7 +29,7 @@ public class Application extends Observer {
 	public User currentUser;
 	public Role currentRole;
 	public List<User> users;
-	public List<Ticket> tickets;
+	public ArrayList<Ticket> tickets;
 	public static Application instancia;
 
 	public static Application getInstancia() {
@@ -50,6 +51,14 @@ public class Application extends Observer {
 		return new Role(type);
 
 	}
+
+	public ArrayList<TicketView> getTickets() {
+		ArrayList<TicketView> ticketView = new ArrayList<TicketView>();
+		for (Ticket tck : tickets) {
+			ticketView.add(tck.toView());
+		}
+		return ticketView;
+	}
 	
 	public ArrayList<TicketView> getTickets(String[] types) {
 		ArrayList<TicketView> ticketView = new ArrayList<TicketView>();
@@ -68,16 +77,8 @@ public class Application extends Observer {
 		return roles;
 	}
 
-	public Ticket getTicket(int ticketNumber) {
-		Ticket res = null;
-		for (Ticket tck : tickets) {
-			if (tck.getTicketNumber() == ticketNumber) {
-				res = tck;
-			}
-		}
-		if (res == null)
-			res = TicketDAO.getInstancia().getTicket(ticketNumber);
-		return res;
+	public Ticket getTicket(int ticketNumber) {		
+		return TicketDAO.getInstancia().getTicket(ticketNumber);
 	}
 	
 
@@ -215,8 +216,45 @@ public class Application extends Observer {
 		return tck;
 
 	}
+	
+	public void addTicket(String type, int clientId, String des, String productCode, int qty, String billId) {
+		Ticket tck = this.makeTicketByType(type);
+		tck.setClient(getClient(clientId));
+		tck.setProduct(getProduct(productCode));
+		tck.setQuantity(qty);
+		tck.setDescription(des);
+		tck.setBillId(billId);
+		tickets.add(tck);
+		this.notifyObservables();
+	}
+	
+	public void removeTicket(String type) {		
+		ListIterator listIterator = tickets.listIterator();
+	      while (listIterator.hasNext()) 
+	        { 
+	           Ticket tck = (Ticket) listIterator.next(); 
+	            if (tck.getType() == type) 
+	            	listIterator.remove(); 
+	        } 		
+		this.notifyObservables();
+	}
+	
+	public boolean checkTicketTypeExist(String type) {				
+		for (Ticket tck : tickets) {
+			return tck.getType() == type;
+		}	
+		return false;
+	}
+	
 
-	public void saveTicket(ArrayList<String> tipoReclamos, int clientId, String descrip, String productCode, int qty) {
+	public void saveTicketComposite(int clientId) {	
+		TicketComposite tck = new TicketComposite(tickets);
+		tck.setClient(getClient(clientId));		
+		tck.addTicket();
+		this.notifyObservables();
+	}
+
+	public void saveTicket(ArrayList<String> tipoReclamos, int clientId, String descrip, String productCode, int qty, String billId) {
 		Ticket tck = null;
 		if (tipoReclamos.size() == 1) {
 			tck = this.makeTicketByType(tipoReclamos.get(0));
@@ -224,30 +262,22 @@ public class Application extends Observer {
 			tck.setProduct(getProduct(productCode));
 			tck.setQuantity(qty);
 			tck.setDescription(descrip);
+			tck.setBillId(billId);
 			tck.addTicket();
-		} else {
-			ArrayList<Ticket> tmpTickets = new ArrayList<Ticket>();
-			for (String type : tipoReclamos) {
-				tmpTickets.add(this.makeTicketByType(type));
-			}
-			tck = new TicketComposite(tmpTickets);
-			tck.setClient(getClient(clientId));
-			tck.setProduct(getProduct(productCode));
-			tck.setQuantity(qty);
-			tck.setDescription(descrip);
-			tck.addTicket();
-
 		}
-
-		tickets.add(tck);
+	
 		this.notifyObservables();
 	}
 	
 
-	public void changeTicketState(int state, int ticketNumber, String log) {	
+	public void changeTicketState(int state, String stateName, int ticketNumber, String log) {	
 		this.getTicket(ticketNumber).changeStatus(state);
-		new TicketHistorical(log, ticketNumber, currentUser.getId()).addLog();
+		new TicketHistorical(log+" > se cambia estado a "+stateName , ticketNumber, currentUser.getId()).addLog();
 		this.notifyObservables();
+	}
+	
+	public DefaultTableModel getTicketHistorical(int ticketNumber) {
+		return TicketDAO.getInstancia().getTicketHistorical(ticketNumber);
 	}
 	
 	public DefaultTableModel getTicketRankLogs() {
@@ -268,4 +298,5 @@ public class Application extends Observer {
 	public List<Role> getAvailableRoles() {
 		return RoleDAO.getInstancia().getAvailableRoles(this.currentUser.getId());		
 	}
+
 }

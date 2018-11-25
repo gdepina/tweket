@@ -49,7 +49,7 @@ public class HClient {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 287, 335);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblSeleccioneUnCliente = new JLabel("Seleccione un cliente:");

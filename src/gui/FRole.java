@@ -52,7 +52,7 @@ public class FRole {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 421, 286);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JList listRoles = new JList(this.buildRolesList());

@@ -57,7 +57,7 @@ public class FClientABM implements Observable {
 		frmClientes = new JFrame();
 		frmClientes.setTitle("Clientes");
 		frmClientes.setBounds(100, 100, 359, 261);
-		frmClientes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmClientes.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmClientes.getContentPane().setLayout(null);
 		
 		list = new JList(buildList());

@@ -17,6 +17,7 @@ public abstract class Ticket {
 	private Date creationDate;
 	private Date endingDate;
 	private int compositeId;
+	private String billId;
 
 	public Product getProduct() {
 		return product;
@@ -130,6 +131,14 @@ public abstract class Ticket {
 	
 	public boolean isComposite() {
 		return this.compositeId != 0;
+	}
+
+	public String getBillId() {
+		return billId;
+	}
+
+	public void setBillId(String billId) {
+		this.billId = billId;
 	}
 
 

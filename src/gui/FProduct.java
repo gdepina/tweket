@@ -58,7 +58,7 @@ public class FProduct {
 		frmProducto = new JFrame();
 		frmProducto.setTitle("Producto");
 		frmProducto.setBounds(100, 100, 368, 262);
-		frmProducto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmProducto.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmProducto.getContentPane().setLayout(null);
 		
 		txtCode = new JTextField();

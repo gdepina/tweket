@@ -148,25 +148,33 @@ public class DashTicket implements Observable {
 	
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int state = 0;
-				int ticketNumber = Integer.valueOf((String) table.getValueAt(table.getSelectedRow(), 0));		
-                if (rbRechazo.isSelected()) {
-                    state = 2;
-                }
-                if (rbEnCurso.isSelected()) {
-                    state = 3;
-                }
-                if (rbCerrado.isSelected()) {
-                    state = 4;
-                }
-                if (state == 0) {
-                	JOptionPane.showMessageDialog(null, "Debe seleccionar un estado", "Estado invalido",
+				if (!table.getSelectionModel().isSelectionEmpty()) {
+					int state = 0;
+					String stateName = "ingresado";
+					int ticketNumber = Integer.valueOf((String) table.getValueAt(table.getSelectedRow(), 0));		
+	                if (rbRechazo.isSelected()) {
+	                    state = 2;
+	                    stateName="Rechazado";
+	                }
+	                if (rbEnCurso.isSelected()) {
+	                    state = 3;
+	                    stateName="En curso";
+	                }
+	                if (rbCerrado.isSelected()) {
+	                    state = 4;
+	                    stateName="Cerrado";
+	                }
+	                if (state == 0) {
+	                	JOptionPane.showMessageDialog(null, "Debe seleccionar un estado", "Estado invalido",
+								JOptionPane.INFORMATION_MESSAGE);
+	                } else {
+	                	txtTratamiento.setText("");
+		                Application.getInstancia().changeTicketState(state, stateName, ticketNumber, txtTratamiento.getText());                
+	                }
+				} else {
+					JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para actualizar su estado", "Reclamos",
 							JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                	txtTratamiento.setText("");
-	                Application.getInstancia().changeTicketState(state, ticketNumber, txtTratamiento.getText());                
-	                updateTable();
-                }
+				}
 			}
 		});
 		btnGuardar.setBounds(36, 587, 117, 29);
@@ -187,13 +195,29 @@ public class DashTicket implements Observable {
 		separator.setBounds(6, 383, 797, 12);
 		frame.getContentPane().add(separator);
 		
+		JButton btnVerHistorico = new JButton("Ver historico");
+		btnVerHistorico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!table.getSelectionModel().isSelectionEmpty()) {
+					FHistorical fHist = new FHistorical(Integer.valueOf((String) table.getValueAt(table.getSelectedRow(), 0)));
+					fHist.frame.setLocationRelativeTo(null);
+					fHist.frame.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Debe seleccionar una fila para ver su historico", "Historico",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		btnVerHistorico.setBounds(186, 394, 117, 29);
+		frame.getContentPane().add(btnVerHistorico);
+		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
 		JMenu mnOpciones = new JMenu("Opciones");
 		menuBar.add(mnOpciones);
 		
-		JMenuItem mntmCerrarSesin = new JMenuItem("Cerrar sesión");
+		JMenuItem mntmCerrarSesin = new JMenuItem("Cambiar de usuario");
 		mntmCerrarSesin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login fLogin = new Login();

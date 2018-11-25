@@ -63,7 +63,7 @@ public class FClient {
 		frmCliente = new JFrame();
 		frmCliente.setTitle("Cliente");
 		frmCliente.setBounds(100, 100, 279, 330);
-		frmCliente.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCliente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmCliente.getContentPane().setLayout(null);
 		
 		txtName = new JTextField();

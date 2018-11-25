@@ -51,7 +51,7 @@ public class DashAdmin {
 		JMenu mnOpciones = new JMenu("Opciones");
 		menuBar.add(mnOpciones);
 		
-		JMenuItem mntmCerrarSesin = new JMenuItem("Cerrar sesión");
+		JMenuItem mntmCerrarSesin = new JMenuItem("Cambiar de usuario");
 		mnOpciones.add(mntmCerrarSesin);
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
