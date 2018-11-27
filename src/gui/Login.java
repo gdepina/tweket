@@ -98,13 +98,13 @@ public class Login extends JFrame {
 			{
 				Jlabel1 = new JLabel();
 				getContentPane().add(Jlabel1);
-				Jlabel1.setText("ID");
+				Jlabel1.setText("Usuario:");
 				Jlabel1.setBounds(18, 33, 88, 14);
 			}
 			{
 				Contrasenia = new JLabel();
 				getContentPane().add(Contrasenia);
-				Contrasenia.setText("Contraseña");
+				Contrasenia.setText("Password");
 				Contrasenia.setBounds(12, 73, 94, 14);
 			}
 			{

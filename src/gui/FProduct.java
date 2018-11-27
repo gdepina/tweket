@@ -77,6 +77,7 @@ public class FProduct {
 		txtPrice.setColumns(10);
 		
 		JTextArea txtDesc = new JTextArea();
+		txtDesc.setLineWrap(true);
 		txtDesc.setBounds(119, 120, 233, 52);
 		frmProducto.getContentPane().add(txtDesc);
 		

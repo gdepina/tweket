@@ -214,7 +214,7 @@ public class FTicket implements Observable {
 					txtBillId.setVisible(true);
 				}
 				
-				if (cbTypes.getSelectedItem().toString().equals("Faltante") || cbTypes.getSelectedItem().toString().equals("Cantidad")) {
+				if (cbTypes.getSelectedItem().toString().equals("Faltante") || cbTypes.getSelectedItem().toString().equals("Cantidad") || cbTypes.getSelectedItem().toString().equals("Producto")) {
 					lblCantidad.setVisible(true);
 					txtCantidad.setVisible(true);
 				}	

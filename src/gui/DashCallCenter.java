@@ -260,7 +260,7 @@ public class DashCallCenter extends JFrame implements Observable {
 		txtZoneName.setBounds(436, 136, 165, 26);
 		frame.getContentPane().add(txtZoneName);
 		
-		JLabel lblDireccin = new JLabel("Dirección:");
+		JLabel lblDireccin = new JLabel("Direccion:");
 		lblDireccin.setBounds(363, 174, 68, 16);
 		frame.getContentPane().add(lblDireccin);
 		
@@ -422,7 +422,7 @@ public class DashCallCenter extends JFrame implements Observable {
 					txtBillId.setVisible(true);
 				}
 				
-				if (cbTicket1.getSelectedItem().toString().equals("Faltante") || cbTicket1.getSelectedItem().toString().equals("Cantidad")) {
+				if (cbTicket1.getSelectedItem().toString().equals("Faltante") || cbTicket1.getSelectedItem().toString().equals("Cantidad") || cbTicket1.getSelectedItem().toString().equals("Producto")) {
 					lblCantidad.setVisible(true);
 					txtCantidad.setVisible(true);
 				}				

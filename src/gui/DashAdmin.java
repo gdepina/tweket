@@ -52,6 +52,13 @@ public class DashAdmin {
 		menuBar.add(mnOpciones);
 		
 		JMenuItem mntmCerrarSesin = new JMenuItem("Cambiar de usuario");
+		mntmCerrarSesin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Login fLogin = new Login();
+				fLogin.setLocationRelativeTo(null);
+				fLogin.setVisible(true);
+			}
+		});
 		mnOpciones.add(mntmCerrarSesin);
 		mntmCerrarSesin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -62,6 +69,11 @@ public class DashAdmin {
 		});
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
+		mntmSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(1);
+			}
+		});
 		mnOpciones.add(mntmSalir);
 		mntmSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
