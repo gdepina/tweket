@@ -128,7 +128,7 @@ public class FTicket implements Observable {
 		lblZona.setBounds(45, 122, 118, 16);
 		frame.getContentPane().add(lblZona);
 		
-		JLabel lblDireccin = new JLabel("Dirección:");
+		JLabel lblDireccin = new JLabel("Direccion:");
 		lblDireccin.setBounds(45, 160, 118, 16);
 		frame.getContentPane().add(lblDireccin);
 		
@@ -151,9 +151,9 @@ public class FTicket implements Observable {
 		lblFactura.setBounds(45, 236, 118, 16);
 		frame.getContentPane().add(lblFactura);
 		
-		JLabel label = new JLabel("Descripción e Información adicional:");
-		label.setBounds(45, 278, 305, 16);
-		frame.getContentPane().add(label);
+		JLabel lblDescripcionEInformacion = new JLabel("Descripcion e Informacion adicional:");
+		lblDescripcionEInformacion.setBounds(45, 278, 305, 16);
+		frame.getContentPane().add(lblDescripcionEInformacion);
 		
 		JTextArea txtDesc = new JTextArea();
 		txtDesc.setWrapStyleWord(true);

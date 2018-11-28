@@ -103,7 +103,7 @@ public class FClient {
 		lblNewLabel.setBounds(27, 47, 61, 16);
 		frmCliente.getContentPane().add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Dirección*:");
+		JLabel lblNewLabel_1 = new JLabel("Direccion*:");
 		lblNewLabel_1.setBounds(27, 80, 83, 16);
 		frmCliente.getContentPane().add(lblNewLabel_1);
 		

@@ -14,6 +14,7 @@ import javax.swing.UIManager;
 
 import controller.Application;
 import view.ProductView;
+import javax.swing.JScrollPane;
 
 public class HProduct {
 
@@ -63,25 +64,8 @@ public class HProduct {
 			listModel.addElement(pro.getName());
 		}
 		
-		JList list = new JList(listModel);
-		
-		
-		list.setBorder(UIManager.getBorder("EditorPane.border"));
-		list.setToolTipText("Producto");
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setBounds(25, 46, 213, 213);
-		list.setVisible(true);	
-		
-		frame.getContentPane().add(list);
-		
 		JButton btnConfirm = new JButton("Aceptar");
-		btnConfirm.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-				Application.getInstancia().currentProd = Application.getInstancia().getProductByName((String) list.getSelectedValue());
-				Application.getInstancia().notifyObservables();		
-				frame.dispose();
-			}
-		});
+
 		btnConfirm.setBounds(23, 272, 117, 29);
 		frame.getContentPane().add(btnConfirm);
 		
@@ -93,5 +77,26 @@ public class HProduct {
 		});
 		btnCancelar.setBounds(136, 271, 117, 29);
 		frame.getContentPane().add(btnCancelar);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(25, 46, 213, 213);
+		frame.getContentPane().add(scrollPane);
+		
+		JList list = new JList(listModel);
+		scrollPane.setViewportView(list);
+		
+		btnConfirm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				Application.getInstancia().currentProd = Application.getInstancia().getProductByName((String) list.getSelectedValue());
+				Application.getInstancia().notifyObservables();		
+				frame.dispose();
+			}
+		});
+		
+		
+		list.setBorder(UIManager.getBorder("EditorPane.border"));
+		list.setToolTipText("Producto");
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setVisible(true);
 	}
 }

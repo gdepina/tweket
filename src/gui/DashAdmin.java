@@ -82,7 +82,7 @@ public class DashAdmin {
 		});
 		
 		
-		JMenu mnNewMenu = new JMenu("Gestión");
+		JMenu mnNewMenu = new JMenu("Gestion");
 		menuBar.add(mnNewMenu);
 	
 		

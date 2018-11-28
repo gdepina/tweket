@@ -20,6 +20,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 public class FClientABM implements Observable {
 
@@ -59,15 +61,6 @@ public class FClientABM implements Observable {
 		frmClientes.setBounds(100, 100, 359, 261);
 		frmClientes.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmClientes.getContentPane().setLayout(null);
-		
-		list = new JList(buildList());
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				Application.getInstancia().getClientByName((String) list.getSelectedValue());
-			}
-		});
-		list.setBounds(142, 16, 189, 204);
-		frmClientes.getContentPane().add(list);
 		
 		JButton btnNuevo = new JButton("Nuevo");
 		btnNuevo.addActionListener(new ActionListener() {
@@ -112,6 +105,19 @@ public class FClientABM implements Observable {
 		});
 		btnEliminar.setBounds(17, 97, 117, 29);
 		frmClientes.getContentPane().add(btnEliminar);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(146, 16, 189, 204);
+		frmClientes.getContentPane().add(scrollPane);
+		
+		list = new JList(buildList());
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(list);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				Application.getInstancia().getClientByName((String) list.getSelectedValue());
+			}
+		});
 	}
 	
 	private DefaultListModel buildList() {
