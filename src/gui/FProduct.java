@@ -63,7 +63,7 @@ public class FProduct {
 		
 		txtCode = new JTextField();
 		txtCode.setBounds(119, 19, 130, 26);
-		frmProducto.getContentPane().add(txtCode);
+		frmProducto.getContentPane().add(txtCode);		
 		txtCode.setColumns(10);
 		
 		txtTitle = new JTextField();
