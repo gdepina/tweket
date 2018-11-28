@@ -81,7 +81,7 @@ public class FProduct {
 		txtDesc.setBounds(119, 120, 233, 52);
 		frmProducto.getContentPane().add(txtDesc);
 		
-		JLabel lblCdigo = new JLabel("Código*:");
+		JLabel lblCdigo = new JLabel("Codigo*:");
 		lblCdigo.setBounds(26, 24, 61, 16);
 		frmProducto.getContentPane().add(lblCdigo);
 		
@@ -93,7 +93,7 @@ public class FProduct {
 		lblPrecio.setBounds(26, 87, 61, 16);
 		frmProducto.getContentPane().add(lblPrecio);
 		
-		JLabel lblDescripcin = new JLabel("Descripción:");
+		JLabel lblDescripcin = new JLabel("Descripcion:");
 		lblDescripcin.setBounds(26, 120, 85, 16);
 		frmProducto.getContentPane().add(lblDescripcin);
 		

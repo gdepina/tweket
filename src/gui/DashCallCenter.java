@@ -154,7 +154,7 @@ public class DashCallCenter extends JFrame implements Observable {
 		txtAreaDesc.setBounds(30, 358, 727, 71);
 		frame.getContentPane().add(txtAreaDesc);
 		
-		JLabel lblInformacinAdicional = new JLabel("Descripción e Información adicional:");
+		JLabel lblInformacinAdicional = new JLabel("Descripcion e Informacion adicional:");
 		lblInformacinAdicional.setBounds(30, 330, 305, 16);
 		frame.getContentPane().add(lblInformacinAdicional);
 		

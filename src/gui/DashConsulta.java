@@ -168,7 +168,7 @@ public class DashConsulta implements Observable {
 		table_2 = new JTable(Application.getInstancia().getAvgResponseTime());
 		scrollPane_2.setViewportView(table_2);
 		
-		JLabel lblTiempoDeResputa = new JLabel("Tiempo de respuesta promedio en días");
+		JLabel lblTiempoDeResputa = new JLabel("Tiempo de respuesta promedio en dias");
 		lblTiempoDeResputa.setFont(new Font("Lucida Grande", Font.BOLD, 14));
 		lblTiempoDeResputa.setBounds(19, 421, 370, 22);
 		frame.getContentPane().add(lblTiempoDeResputa);

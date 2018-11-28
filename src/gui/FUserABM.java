@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 public class FUserABM implements Observable {
 
@@ -100,15 +102,6 @@ public class FUserABM implements Observable {
 		btnEliminar.setBounds(17, 105, 117, 29);
 		frame.getContentPane().add(btnEliminar);
 		
-		list = new JList(this.buildList());
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				Application.getInstancia().getUser((String) list.getSelectedValue());
-			}
-		});
-		list.setBounds(165, 18, 166, 210);
-		frame.getContentPane().add(list);
-		
 		JButton btnRoles = new JButton("Roles");
 		btnRoles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -123,6 +116,19 @@ public class FUserABM implements Observable {
 		});
 		btnRoles.setBounds(17, 146, 117, 29);
 		frame.getContentPane().add(btnRoles);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(146, 21, 185, 218);
+		frame.getContentPane().add(scrollPane);
+		
+		list = new JList(this.buildList());
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(list);
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				Application.getInstancia().getUser((String) list.getSelectedValue());
+			}
+		});
 	}
 	
 	private DefaultListModel buildList() {

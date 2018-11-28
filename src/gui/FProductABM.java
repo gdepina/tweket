@@ -22,6 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 public class FProductABM implements Observable {
 
@@ -113,6 +114,7 @@ public class FProductABM implements Observable {
 	
 		
 		list = new JList(buildList());
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {

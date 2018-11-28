@@ -72,7 +72,7 @@ public class FUser {
 		lblUsuario.setBounds(18, 25, 61, 16);
 		frame.getContentPane().add(lblUsuario);
 		
-		JLabel lblContrasea = new JLabel("Contraseña*:");
+		JLabel lblContrasea = new JLabel("Password*:");
 		lblContrasea.setBounds(18, 63, 81, 16);
 		frame.getContentPane().add(lblContrasea);
 		
